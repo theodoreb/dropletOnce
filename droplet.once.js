@@ -5,54 +5,91 @@
  *   http://opensource.org/licenses/GPL-2.0
  */
 
-var dropletOnce = (function () {
+/**
+ * @class  dropletOnce
+ * @param  {NodeList}  elements
+ * @param  {String}  [id="once"]
+ */
+function dropletOnce (elements, id) {
+  "use strict";
 
-  function init(elements, id) {
-    var name = checkId(id);
+  var dataId = this.checkId(id);
 
-    var filtered = Array.prototype.filter.call(elements, function (element) {
-      return !element.getAttribute(name);
-    });
+  var filtered = Array.prototype.filter.call(elements, function (element) {
+    return element.getAttribute(dataId) == null;
+  });
 
-    filtered.map(function (element) {
-      // element.dataset[name] = true;
-      element.setAttribute(name, true);
-    });
+  filtered.map(function (element) {
+    element.setAttribute(dataId, "");
+  });
 
-    return filtered;
-  }
+  return filtered;
+}
 
-  function checkId(id) {
+dropletOnce.prototype = {
+  constructor: dropletOnce,
+  /**
+   * Ensures that the given ID is valid, returning "data-drupal-once" if one is not given.
+   *
+   * @param {string} [id="once"]
+   *   A string representing the ID to check. Defaults to `"once"`.
+   *
+   * @returns The valid ID name.
+   *
+   * @throws Error when an ID is provided, but not a string.
+   * @public
+   */
+  checkId: function (id) {
+    "use strict";
+
     id = id || "once";
     if (typeof id !== "string") {
       throw new Error("The Once id parameter must be a string");
     }
-    return id;
-  }
+    return "data-drupal-" + id;
+  },
+  /**
+   * Removes the once data from elements, based on the given ID.
+   *
+   * @param {string} [id="once"]
+   *   A string representing the name of the data ID which should be used when
+   *   filtering the elements. This only filters elements that have already been
+   *   processed by the once function. The ID should be the same ID that was
+   *   originally passed to the once() function. Defaults to `"once"`.
+   *
+   * @example
+   * ``` javascript
+   * // Remove once data with the "changecolor" ID. The result set is the
+   * // elements that had their once data removed.
+   * dropletOnce.removeONce(document.querySelectorAll('.test' + j), 'changecolor');
+   * ```
+   *
+   * @see dropletOnce
+   * @this dropletOnce
+   *
+   * @global
+   * @public
+   */
+  removeOnce: function (elements, id) {
+    "use strict";
 
-  function removeOnce(elements, id) {
     Array.prototype.forEach.call(elements, function (element) {
-      element.removeAttribute(dropletOnce.checkId(id));
+     element.removeAttribute(dropletOnce.checkId(id));
     });
   }
+};
 
-  var API = {};
-  API.init = init;
-  API.removeOnce = removeOnce;
+/**
+ * @class  dropletOnce
+ * @param  {NodeList}  elements
+ * @param  {String} [id="once"]
+ */
+dropletOnce.init = function (elements, id) {
+  "use strict";
+  return new dropletOnce(elements, id);
+};
 
-  return API;
-}());
+dropletOnce.checkId = dropletOnce.prototype.checkId;
+dropletOnce.removeOnce = dropletOnce.prototype.removeOnce;
 
-//
-// Uncomment if you like jQuery way
-//
-//(function ($, dropletOnce) {
-//  "use strict";
-//
-//  function Plugin(option) {
-//    return dropletOnce.init($(this), option);
-//  }
-//
-//  $.fn.once = Plugin;
-//  $.fn.once.Constructor = dropletOnce;
-//})(jQuery, dropletOnce);
+dropletOnce.version = "1.0.0";

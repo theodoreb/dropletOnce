@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="jquery.once.js"></script>
+  <script src="../droplet.once.js"></script>
+</head>
+<body>
+
+<div class="d1"></div>
+<div class="d2"></div>
+<div class="d3"></div>
+<div class="d4"></div>
+<div class="d5"></div>
+<div class="d6"></div>
+<div class="d7"></div>
+<div class="d8"></div>
+<div class="d9"></div>
+<div class="d10"></div>
+<div class="d11"></div>
+<div class="d12"></div>
+<div class="d13"></div>
+<div class="d14"></div>
+<div class="d15"></div>
+<div class="d16"></div>
+<div class="d17"></div>
+<div class="d18"></div>
+<div class="d19"></div>
+<div class="d20"></div>
+<div class="d21"></div>
+<div class="d22"></div>
+<div class="d23"></div>
+<div class="d24"></div>
+<div class="d25"></div>
+<div class="d26"></div>
+<div class="d27"></div>
+<div class="d28"></div>
+<div class="d29"></div>
+<div class="d30"></div>
+
+
+<div class="j1"></div>
+<div class="j2"></div>
+<div class="j3"></div>
+<div class="j4"></div>
+<div class="j5"></div>
+<div class="j6"></div>
+<div class="j7"></div>
+<div class="j8"></div>
+<div class="j9"></div>
+<div class="j10"></div>
+<div class="j11"></div>
+<div class="j12"></div>
+<div class="j13"></div>
+<div class="j14"></div>
+<div class="j15"></div>
+<div class="j16"></div>
+<div class="j17"></div>
+<div class="j18"></div>
+<div class="j19"></div>
+<div class="j20"></div>
+<div class="j21"></div>
+<div class="j22"></div>
+<div class="j23"></div>
+<div class="j24"></div>
+<div class="j25"></div>
+<div class="j26"></div>
+<div class="j27"></div>
+<div class="j28"></div>
+<div class="j29"></div>
+<div class="j30"></div>
+
+
+<script>
+  console.log("Run 60 times:");
+
+  console.time('dropletOnce');
+  for (var j = 1; j <= 30; j++) {
+    dropletOnce.init(document.querySelectorAll('.d' + j), 'dC');
+    dropletOnce.init(document.querySelectorAll('.d' + j), 'dC');
+  }
+  console.timeEnd('dropletOnce');
+
+  console.time('jQuery.once');
+  for (var j = 1; j <= 30; j++) {
+    $('.j' + j).once('jC');
+    $('.j' + j).once('jC');
+  }
+  console.timeEnd('jQuery.once');
+
+</script>
+</body>
+</html>
