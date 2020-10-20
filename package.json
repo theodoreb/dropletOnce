@@ -56,14 +56,14 @@
     "mocha": "^2.1.0",
     "mocha-jsdom": "^0.2.1",
     "projectz": "^0.3.17",
-    "uglify-js": "^2.4.24"
+    "terser": "^5.3.7"
   },
   "scripts": {
     "pretest": "./node_modules/.bin/eslint once.js test/test.js",
     "test": "./node_modules/.bin/mocha",
     "projectz": "./node_modules/.bin/projectz compile",
     "docs": "./node_modules/.bin/jsdoc2md once.js > API.md",
-    "build": "./node_modules/.bin/uglifyjs once.js -o once.min.js --comments --source-map once.min.js.map --mangle",
+    "build": "./node_modules/.bin/terser once.js -o once.min.js -c -m --source-map",
     "package": "npm install && npm run test && npm run projectz && npm run docs && npm run build"
   }
 }
