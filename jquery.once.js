@@ -6,13 +6,13 @@
  */
 
 
-(function ($, dropletOnce) {
+(function ($, once) {
   "use strict";
 
   function Plugin(option) {
-    return dropletOnce.init($(this), option);
+    return once.init($(this), option);
   }
 
   $.fn.once = Plugin;
-  $.fn.once.Constructor = dropletOnce;
-})(jQuery, dropletOnce);
+  $.fn.once.Constructor = once;
+})(jQuery, once);

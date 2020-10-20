@@ -12,7 +12,7 @@ describe("jQuery Once", function() {
    * The global instance of jQuery.
    */
   var $;
-  var dropletOnce;
+  var once;
   /**
    * Turn the Mocha test environment into a DOM environment with JSDom.
    */
@@ -25,9 +25,9 @@ describe("jQuery Once", function() {
     $ = require("jquery");
 
     // Add an 'exports' line to the end of the module before loading it.
-    var originalFoo = fs.readFileSync(__dirname + "/../droplet.once.js", 'utf8');
-    fs.writeFileSync(__dirname + '/droplet.once.js', originalFoo + "\nexports.dropletOnce = dropletOnce;");
-    dropletOnce = require('./droplet.once.js').dropletOnce;
+    var originalFoo = fs.readFileSync(__dirname + "/../once.js", 'utf8');
+    fs.writeFileSync(__dirname + '/once.js', originalFoo + "\nexports.once = once;");
+    once = require('./once.js').once;
   });
 
   /**
@@ -42,13 +42,13 @@ describe("jQuery Once", function() {
     // Expect it to throw an error.
 
     assert.throws(function() {
-      dropletOnce.init(document.querySelectorAll('span'), 123);
+      once.init(document.querySelectorAll('span'), 123);
     });
   });
 
   it("properly executes .once('test2')", function () {
     // Create one once('test2') call.
-    dropletOnce.init(document.querySelectorAll('span'), 'test2');
+    once.init(document.querySelectorAll('span'), 'test2');
 
     // The data should result to the first once() call.
     var data = $("span").data("drupal-test2");
@@ -68,7 +68,7 @@ describe("jQuery Once", function() {
     // Call once() a bunch of times.
     var onced;
     for (var i = 0; i < 10; i++) {
-      onced = dropletOnce.init(document.querySelectorAll('span'), 'count');
+      onced = once.init(document.querySelectorAll('span'), 'count');
 
       if(onced.length) {
         callback();
@@ -92,7 +92,7 @@ describe("jQuery Once", function() {
     // Call once() a bunch of times.
     var onced;
     for (var i = 0; i < 10; i++) {
-      onced = dropletOnce.init(document.querySelectorAll('span'));
+      onced = once.init(document.querySelectorAll('span'));
 
       if(onced.length) {
         callback();
@@ -119,14 +119,14 @@ describe("jQuery Once", function() {
 
   it("calls removeOnce() correctly", function() {
     // Create one once() call.
-    dropletOnce.init(document.querySelectorAll('span'), 'test4');
+    once.init(document.querySelectorAll('span'), 'test4');
 
     // Verify the data is applied.
     var hasData = (document.querySelector("span[data-drupal-test4]") !== null);
     assert(hasData, "The value is properly applied after once().");
 
     // Remove the once property.
-    dropletOnce.removeOnce(document.querySelectorAll('span'), 'test4');
+    once.removeOnce(document.querySelectorAll('span'), 'test4');
     hasData = !(document.querySelector("[data-drupal-test4]") === null);
     assert(!hasData, "The value is properly removed when called removeOnce().");
   });

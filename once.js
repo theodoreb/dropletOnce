@@ -6,11 +6,11 @@
  */
 
 /**
- * @class  dropletOnce
+ * @class  once
  * @param  {NodeList}  elements
  * @param  {String}  [id="once"]
  */
-function dropletOnce (elements, id) {
+function once (elements, id) {
   "use strict";
 
   var dataId = this.checkId(id);
@@ -26,8 +26,8 @@ function dropletOnce (elements, id) {
   return filtered;
 }
 
-dropletOnce.prototype = {
-  constructor: dropletOnce,
+once.prototype = {
+  constructor: once,
   /**
    * Ensures that the given ID is valid, returning "data-drupal-once" if one is not given.
    *
@@ -61,11 +61,11 @@ dropletOnce.prototype = {
    * ``` javascript
    * // Remove once data with the "changecolor" ID. The result set is the
    * // elements that had their once data removed.
-   * dropletOnce.removeONce(document.querySelectorAll('.test' + j), 'changecolor');
+   * once.removeOnce(document.querySelectorAll('.test' + j), 'changecolor');
    * ```
    *
-   * @see dropletOnce
-   * @this dropletOnce
+   * @see once
+   * @this once
    *
    * @global
    * @public
@@ -74,22 +74,22 @@ dropletOnce.prototype = {
     "use strict";
 
     Array.prototype.forEach.call(elements, function (element) {
-     element.removeAttribute(dropletOnce.checkId(id));
+     element.removeAttribute(once.checkId(id));
     });
   }
 };
 
 /**
- * @class  dropletOnce
+ * @class  once
  * @param  {NodeList}  elements
  * @param  {String} [id="once"]
  */
-dropletOnce.init = function (elements, id) {
+once.init = function (elements, id) {
   "use strict";
-  return new dropletOnce(elements, id);
+  return new once(elements, id);
 };
 
-dropletOnce.checkId = dropletOnce.prototype.checkId;
-dropletOnce.removeOnce = dropletOnce.prototype.removeOnce;
+once.checkId = once.prototype.checkId;
+once.removeOnce = once.prototype.removeOnce;
 
-dropletOnce.version = "1.0.0";
+once.version = "1.0.0";

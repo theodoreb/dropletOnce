@@ -1,7 +1,7 @@
 
 <!-- TITLE/ -->
 
-# dropletOnce, replacement of jQuery.once
+# once, replacement of jQuery.once
 
 <!-- /TITLE -->
 

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="jquery.once.js"></script>
-  <script src="../droplet.once.js"></script>
+  <script src="../once.js"></script>
 </head>
 <body>
 
@@ -2015,12 +2015,12 @@
 <script>
   console.log("Run 1000 times:");
 
-  console.time('dropletOnce');
+  console.time('once');
   for (var j = 1; j <= 500; j++) {
-    dropletOnce.init(document.querySelectorAll('.d' + j), 'dC');
-    dropletOnce.init(document.querySelectorAll('.d' + j), 'dC');
+    once.init(document.querySelectorAll('.d' + j), 'dC');
+    once.init(document.querySelectorAll('.d' + j), 'dC');
   }
-  console.timeEnd('dropletOnce');
+  console.timeEnd('once');
 
   console.time('jQuery.once');
   for (var j = 1; j <= 500; j++) {
