@@ -1,8 +1,8 @@
 {
-  "name": "dropletonce",
-  "title": "dropletOnce",
+  "name": "once",
+  "title": "once",
   "description": "Act on elements only once.",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "keywords": [
     "jquery",
     "jquery-plugin"
@@ -20,7 +20,7 @@
   "maintainers": [
     "Kay Leung (https://github.com/KayLeung)"
   ],
-  "main": "dropletonce.js",
+  "main": "once.js",
   "contributors": [
     "KayLeung (https://github.com/KayLeung)",
     "JohnAlbin (https://github.com/JohnAlbin)",
@@ -48,21 +48,22 @@
     "node": ">=0.10"
   },
   "devDependencies": {
-    "eslint": "~0.13.0",
-    "jsdoc-to-markdown": "~0.6.2",
-    "jsdom": "~3.0.1",
-    "jquery": "*",
-    "mocha": "~2.1.0",
-    "mocha-jsdom": "~0.2.0",
-    "projectz": "~0.3.17",
-    "uglify-js": "~2.4.16"
+    "eslint": "^7.11.0",
+    "eslint-config-drupal": "^5.0.2",
+    "jquery": "^3.5.1",
+    "jsdoc-to-markdown": "^6.0.1",
+    "jsdom": "^16.4.0",
+    "mocha": "^2.1.0",
+    "mocha-jsdom": "^0.2.1",
+    "projectz": "^0.3.17",
+    "uglify-js": "^2.4.24"
   },
   "scripts": {
-    "pretest": "./node_modules/.bin/eslint droplet.once.js test/test.js",
+    "pretest": "./node_modules/.bin/eslint once.js test/test.js",
     "test": "./node_modules/.bin/mocha",
     "projectz": "./node_modules/.bin/projectz compile",
-    "docs": "./node_modules/.bin/jsdoc2md droplet.once.js > API.md",
-    "build": "./node_modules/.bin/uglifyjs droplet.once.js -o droplet.once.min.js --comments --source-map jquery.once.min.js.map --mangle",
+    "docs": "./node_modules/.bin/jsdoc2md once.js > API.md",
+    "build": "./node_modules/.bin/uglifyjs once.js -o once.min.js --comments --source-map once.min.js.map --mangle",
     "package": "npm install && npm run test && npm run projectz && npm run docs && npm run build"
   }
 }
