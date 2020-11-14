@@ -1,15 +1,15 @@
 {
-  "name": "once",
+  "name": "once-dom",
   "title": "once",
   "description": "Act on elements only once.",
   "version": "2.0.0",
   "keywords": [
     "jquery",
-    "jquery-plugin"
+    "dom"
   ],
   "repo": "theodoreb/once",
   "homepage": "https://github.com/theodoreb/once",
-  "author": "Rob Loach (http://github.com/KayLeung)",
+  "author": "Théodore Biadala (https://github.com/theodoreb)",
   "maintainers": [
     "Théodore Biadala (https://github.com/theodoreb)",
     "Kay Leung (https://github.com/KayLeung)"
@@ -33,11 +33,7 @@
   "licenses": [
     {
       "type": "GPL-2.0",
-      "url": "http://opensource.org/licenses/gpl-2.0.php"
-    },
-    {
-      "type": "MIT",
-      "url": "http://opensource.org/licenses/MIT"
+      "url": "http://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
     }
   ],
   "devDependencies": {
@@ -53,11 +49,11 @@
   },
   "scripts": {
     "build": "node ./build/dist.js",
-    "publish": "npm install && npm run test && npm run docs",
-    "validate": "npm run test",
+    "//publish": "npm install && npm run validate",
+    "validate": "npm run test && npm pack --dry-run",
     "test": "web-test-runner 'test/*.test.html' --node-resolve --playwright --browsers chromium firefox",
     "lint": "eslint src/",
-    "docs": "jsdoc2md once.js > API.md",
+    "docs": "jsdoc2md src/once.js > API.md",
     "dev": "",
     "pretest": "npm run lint && npm run build"
   }

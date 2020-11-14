@@ -8,3 +8,5 @@ test
 .gitignore
 .eslintrc
 package-lock.json
+.idea
+.github

@@ -4,6 +4,10 @@
  */
 
 /**
+ * @module once-dom
+ */
+
+/**
  * Illegal spaces in ids.
  *
  * @type {RegExp}
