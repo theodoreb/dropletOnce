@@ -7,32 +7,28 @@
     "jquery",
     "jquery-plugin"
   ],
-  "badges": {
-    "travis": true,
-    "npm": true,
-    "david": true,
-    "daviddev": true,
-    "npmdownloads": true
-  },
-  "repo": "KayLeung/dropletOnce",
-  "homepage": "https://github.com/KayLeung/dropletOnce",
+  "repo": "theodoreb/once",
+  "homepage": "https://github.com/theodoreb/once",
   "author": "Rob Loach (http://github.com/KayLeung)",
   "maintainers": [
+    "Théodore Biadala (https://github.com/theodoreb)",
     "Kay Leung (https://github.com/KayLeung)"
   ],
-  "main": "once.js",
+  "type": "module",
+  "main": "src/once.js",
+  "module": "src/once.js",
   "contributors": [
     "KayLeung (https://github.com/KayLeung)",
     "JohnAlbin (https://github.com/JohnAlbin)",
-    "Rob Loach <robloach@gmail.com> (https://github.com/RobLoach)",
+    "Rob Loach (https://github.com/RobLoach)",
     "theodoreb (https://github.com/theodoreb)"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/KayLeung/dropletOnce.git"
+    "url": "https://github.com/theodoreb/once.git"
   },
   "bugs": {
-    "url": "https://github.com/KayLeung/dropletOnce/issues"
+    "url": "https://github.com/theodoreb/once/issues"
   },
   "licenses": [
     {
@@ -44,26 +40,25 @@
       "url": "http://opensource.org/licenses/MIT"
     }
   ],
-  "engines": {
-    "node": ">=0.10"
-  },
   "devDependencies": {
+    "@esm-bundle/chai": "^4.1.5",
+    "@open-wc/testing": "^2.5.32",
+    "@web/test-runner": "^0.9.8",
+    "@web/test-runner-playwright": "^0.6.4",
     "eslint": "^7.11.0",
     "eslint-config-drupal": "^5.0.2",
     "jquery": "^3.5.1",
     "jsdoc-to-markdown": "^6.0.1",
-    "jsdom": "^16.4.0",
-    "mocha": "^2.1.0",
-    "mocha-jsdom": "^0.2.1",
-    "projectz": "^0.3.17",
-    "terser": "^5.3.7"
+    "terser": "^5.3.8"
   },
   "scripts": {
-    "pretest": "./node_modules/.bin/eslint once.js test/test.js",
-    "test": "./node_modules/.bin/mocha",
-    "projectz": "./node_modules/.bin/projectz compile",
-    "docs": "./node_modules/.bin/jsdoc2md once.js > API.md",
-    "build": "./node_modules/.bin/terser once.js -o once.min.js -c -m --source-map",
-    "package": "npm install && npm run test && npm run projectz && npm run docs && npm run build"
+    "build": "node ./build/dist.js",
+    "publish": "npm install && npm run test && npm run docs",
+    "validate": "npm run test",
+    "test": "web-test-runner 'test/*.test.html' --node-resolve --playwright --browsers chromium firefox",
+    "lint": "eslint src/",
+    "docs": "jsdoc2md once.js > API.md",
+    "dev": "",
+    "pretest": "npm run lint && npm run build"
   }
 }
