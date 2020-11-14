@@ -2,7 +2,7 @@
   "name": "once-dom",
   "title": "once",
   "description": "Act on elements only once.",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "keywords": [
     "jquery",
     "dom"
