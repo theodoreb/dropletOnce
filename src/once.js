@@ -5,10 +5,27 @@
 
 /**
  * @module once-dom
+ *
+ * @example <caption>Use as a module</caption>
+ * <script type="module" src="https://unpkg.com/once-dom@2.0.0/src/once.js"></script>
+ * <script type="module">
+ *   import once from "once";
+ *   const elements = once("my-id", document.querySelectorAll("div"));
+ *   elements.forEach(element => initBehavior);
+ * </script>
+ *
+ * @example <caption>Use as a regular script</caption>
+ * <script src="">
+ *
+ * @example <caption>Use jQuery integration</caption>
+ * <script src="">
+ *
  */
 
 /**
  * Illegal spaces in ids.
+ *
+ * @private
  *
  * @type {RegExp}
  */
@@ -17,12 +34,16 @@ const wsRE = /[\11\12\14\15\40]+/;
 /**
  * Name of the HTML attribute containing an element's once ids.
  *
+ * @private
+ *
  * @type {string}
  */
 const attrName = "data-once";
 
 /**
  * Verify the validity of the once id.
+ *
+ * @private
  *
  * @param {string} id
  *   The id passed by a call to a once() function.
@@ -51,6 +72,8 @@ function checkId(id) {
  * processed. once() makes use of get/setAttribute, which are methods
  * inherited from the Element object, so only of Element can be used.
  *
+ * @private
+ *
  * @param {*} itemToCheck
  *   The item to check.
  *
@@ -71,6 +94,8 @@ function checkElement(itemToCheck) {
  *
  * This makes it possible to filter items that are not instances of Element,
  * then modify their DOM attributes in a single array traversal.
+ *
+ * @private
  *
  * @param {NodeList|Array.<Element>} elements
  *   A NodeList or array of elements passed by a call to a once() function.
@@ -97,6 +122,8 @@ function filterAndModify(elements, selector, apply) {
  *
  * This function removes duplicates while adding or removing a once id in a
  * single array traversal.
+ *
+ * @private
  *
  * @param {string} value
  *   A space separated string of once ids from a data-drupal-once attribute.
@@ -176,6 +203,8 @@ function once(id, elements) {
  * the JavaScript callback associated with that id can be executed on that
  * element again.
  *
+ * @method once.remove
+ *
  * @example
  * const removedOnceElements = once.remove(
  *   'my-once-id',
@@ -212,6 +241,8 @@ once.remove = (id, elements) => {
  * Filters a NodeList or array, returning an array of the elements already
  * processed by the provided once id.
  *
+ * @method once.filter
+ *
  * @example
  * const filteredElements = once.filter(
  *   'my-once-id',
@@ -238,12 +269,14 @@ once.filter = (id, elements) => {
  * Query the 'context' element for elements that already have the
  * corresponding once id value.
  *
+ * @method once.find
+ *
  * @example
  * const oncedElements = once.find('my-once-id');
  *
  * @param  {string} id
  *   The id of the once call.
- * @param  {Element} [context]
+ * @param  {Element} [context=document.documentElement]
  *   Scope of the search for matching elements.
  *
  * @return {Array.<Element>}
