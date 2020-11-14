@@ -14,6 +14,8 @@ const defaults = {
   }
 };
 
+fs.mkdirSync("./dist", { recursive: true });
+
 // eslint-disable-next-line no-restricted-syntax
 for (const [path, options] of Object.entries(files)) {
   const source = `./src/${path}`;
