@@ -48,16 +48,14 @@
     "terser": "^5.3.8"
   },
   "scripts": {
-    "build": "node ./build/dist.js",
-    "prepublish": "npm install && npm run validate",
-    "validate": "npm run test && npm pack --dry-run",
+    "build": "node ./build/dist.js && npm run docs",
     "test": "web-test-runner 'test/*.test.html' --node-resolve --playwright --browsers chromium firefox",
     "lint": "eslint src/",
     "docs": "jsdoc2md src/once.js > API.md",
-    "dev": "",
     "pretest": "npm run lint && npm run build",
+    "prepare": "npm test",
     "preversion": "npm test",
-    "version": "npm run build && git add -A dist -f",
-    "//postversion": "git push && git push --tags"
+    "version": "npm run build && git add -A dist -f && git add -A API.md",
+    "postversion": "git push && git push --tags"
   }
 }
