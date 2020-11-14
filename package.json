@@ -49,12 +49,16 @@
   },
   "scripts": {
     "build": "node ./build/dist.js",
-    "//publish": "npm install && npm run validate",
+    "prepublish": "npm install && npm run validate",
     "validate": "npm run test && npm pack --dry-run",
     "test": "web-test-runner 'test/*.test.html' --node-resolve --playwright --browsers chromium firefox",
     "lint": "eslint src/",
     "docs": "jsdoc2md src/once.js > API.md",
     "dev": "",
-    "pretest": "npm run lint && npm run build"
+
+    "pretest": "npm run lint && npm run build",
+    "preversion": "npm test",
+    "version": "npm run build && git add -A dist",
+    "//postversion": "git push && git push --tags"
   }
 }

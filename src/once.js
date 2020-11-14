@@ -7,19 +7,32 @@
  * @module once-dom
  *
  * @example <caption>Use as a module</caption>
- * <script type="module" src="https://unpkg.com/once-dom@2.0.0/src/once.js"></script>
  * <script type="module">
- *   import once from "once";
+ *   import once from "https://unpkg.com/once-dom@2.0.1/src/once.js";
  *   const elements = once("my-id", document.querySelectorAll("div"));
- *   elements.forEach(element => initBehavior);
+ *   // Initialize elements.
+ *   elements.forEach(el => el.innerHTML = "processed");
  * </script>
  *
  * @example <caption>Use as a regular script</caption>
- * <script src="">
+ * <script src="https://unpkg.com/once-dom@2.0.1/dist/once.min.js"></script>
+ * <script>
+ *   const elements = once("my-id", document.querySelectorAll("div"));
+ *   // Initialize elements.
+ *   elements.forEach(el => el.innerHTML = "processed");
+ * </script>
  *
  * @example <caption>Use jQuery integration</caption>
- * <script src="">
- *
+ * <script src="https://unpkg.com/jquery@3.5.1/dist/jquery.min.js"></script>
+ * <script src="https://unpkg.com/once-dom@2.0.1/dist/once.min.js"></script>
+ * <script src="https://unpkg.com/once-dom@2.0.1/dist/once.jquery.min.js"></script>
+ * <script>
+ *   jQuery("div")
+ *     .once("my-id")
+ *     .each(function () {
+ *       this.innerHTML = "processed";
+ *     });
+ * </script>
  */
 
 /**

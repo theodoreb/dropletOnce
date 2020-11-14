@@ -1,17 +1,44 @@
 # once-dom
 
-Select and filter dom elements to process them only once.
+Select and filter DOM elements to process them only once.
 
-## Examples
+## Documentation and examples
 
-Select elements who haven't been processed yet
+**Example** *(Use as a module)*
 ```js
-const elements = once('some-id', document.querySelectorAll('div'));
+<script type="module">
+  import once from "https://unpkg.com/once-dom@2.0.1/src/once.js";
+  const elements = once("my-id", document.querySelectorAll("div"));
+  // Initialize elements.
+  elements.forEach(el => el.innerHTML = "processed");
+</script>
+```
+**Example** *(Use as a regular script)*
+```js
+<script src="https://unpkg.com/once-dom@2.0.1/dist/once.min.js"></script>
+<script>
+  const elements = once("my-id", document.querySelectorAll("div"));
+  // Initialize elements.
+  elements.forEach(el => el.innerHTML = "processed");
+</script>
+```
+**Example** *(Use jQuery integration)*
+```js
+<script src="https://unpkg.com/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="https://unpkg.com/once-dom@2.0.1/dist/once.min.js"></script>
+<script src="https://unpkg.com/once-dom@2.0.1/dist/once.jquery.min.js"></script>
+<script>
+  jQuery("div")
+    .once("my-id")
+    .each(function () {
+      this.innerHTML = "processed";
+    });
+</script>
 ```
 
+Full API documentation and examples in the [API docs](API.md).
 
-
-### Contributors
+## Contributors
 
 These amazing people have contributed code to this project:
 
