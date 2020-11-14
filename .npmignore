@@ -7,3 +7,4 @@ test
 .editorconfig
 .gitignore
 .eslintrc
+package-lock.json
