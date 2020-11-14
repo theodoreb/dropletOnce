@@ -55,10 +55,9 @@
     "lint": "eslint src/",
     "docs": "jsdoc2md src/once.js > API.md",
     "dev": "",
-
     "pretest": "npm run lint && npm run build",
     "preversion": "npm test",
-    "version": "npm run build && git add -A dist",
+    "version": "npm run build && git add -A dist -f",
     "//postversion": "git push && git push --tags"
   }
 }
