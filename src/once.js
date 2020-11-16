@@ -1,21 +1,18 @@
 /**
- * @file
- * Functionality to limit repeat JavaScript callbacks on a set of elements.
- */
-
-/**
+ * Mark DOM elements as processed to prevent multiple initializations.
+ *
  * @module once-dom
  *
  * @example <caption>Use as a module</caption>
  * <script type="module">
- *   import once from "https://unpkg.com/once-dom@2.0.1/src/once.js";
+ *   import once from "https://unpkg.com/once-dom@latest/src/once.js";
  *   const elements = once("my-id", document.querySelectorAll("div"));
  *   // Initialize elements.
  *   elements.forEach(el => el.innerHTML = "processed");
  * </script>
  *
  * @example <caption>Use as a regular script</caption>
- * <script src="https://unpkg.com/once-dom@2.0.1/dist/once.min.js"></script>
+ * <script src="https://unpkg.com/once-dom@latest/dist/once.min.js"></script>
  * <script>
  *   const elements = once("my-id", document.querySelectorAll("div"));
  *   // Initialize elements.
@@ -24,8 +21,8 @@
  *
  * @example <caption>Use jQuery integration</caption>
  * <script src="https://unpkg.com/jquery@3.5.1/dist/jquery.min.js"></script>
- * <script src="https://unpkg.com/once-dom@2.0.1/dist/once.min.js"></script>
- * <script src="https://unpkg.com/once-dom@2.0.1/dist/once.jquery.min.js"></script>
+ * <script src="https://unpkg.com/once-dom@latest/dist/once.min.js"></script>
+ * <script src="https://unpkg.com/once-dom@latest/dist/once.jquery.min.js"></script>
  * <script>
  *   jQuery("div")
  *     .once("my-id")
@@ -170,7 +167,7 @@ function updateAttribute({ value, add, remove }) {
  *
  * Filters a NodeList or array of elements, removing those already processed
  * by a callback with a given id.
- * This method adds the data-drupal-once attribute on DOM elements. The value of
+ * This method adds a `data-once` attribute on DOM elements. The value of
  * this attribute identifies if a given callback has been executed on that
  * element.
  *

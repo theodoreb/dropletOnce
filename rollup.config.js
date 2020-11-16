@@ -1,21 +1,16 @@
 import { terser } from 'rollup-plugin-terser';
 import buble from '@rollup/plugin-buble';
-import replace from '@rollup/plugin-replace';
 import pkg from './package.json';
 
 const plugins = [
-  replace({
-    __VERSION__: pkg.version,
-  }),
-  buble({
-    transforms: {
-      modules: false,
-    },
-  }),
-  terser({
-    module: true,
-  }),
+  // Transform down to ES5, do not error out on export/import lines.
+  buble({ transforms: { modules: false } }),
+  // Minify resulting ES5 code, allow top-level mangling and keep banner comment.
+  terser({ module: true, format: { comments: /^ v/ } }),
 ];
+
+// Add version and date to generated files.
+const banner = `/* v${pkg.version} - ${new Date().toJSON().split('T')[0]} */`;
 
 export default [
   {
@@ -25,6 +20,7 @@ export default [
       file: pkg.browser,
       format: 'umd',
       sourcemap: true,
+      banner,
     },
     plugins,
   },
@@ -34,6 +30,7 @@ export default [
       file: 'dist/once.jquery.min.js',
       format: 'iife',
       sourcemap: true,
+      banner,
     },
     plugins,
   },

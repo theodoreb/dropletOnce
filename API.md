@@ -2,7 +2,8 @@
 
 <dl>
 <dt><a href="#module_once-dom">once-dom</a></dt>
-<dd></dd>
+<dd><p>Mark DOM elements as processed to prevent multiple initializations.</p>
+</dd>
 </dl>
 
 ## Functions
@@ -12,7 +13,7 @@
 <dd><p>Ensures a JavaScript callback is only executed once on a set of elements.</p>
 <p>Filters a NodeList or array of elements, removing those already processed
 by a callback with a given id.
-This method adds the data-drupal-once attribute on DOM elements. The value of
+This method adds a <code>data-once</code> attribute on DOM elements. The value of
 this attribute identifies if a given callback has been executed on that
 element.</p>
 </dd>
@@ -21,10 +22,12 @@ element.</p>
 <a name="module_once-dom"></a>
 
 ## once-dom
+Mark DOM elements as processed to prevent multiple initializations.
+
 **Example** *(Use as a module)*  
 ```js
 <script type="module">
-  import once from "https://unpkg.com/once-dom@2.0.1/src/once.js";
+  import once from "https://unpkg.com/once-dom@latest/src/once.js";
   const elements = once("my-id", document.querySelectorAll("div"));
   // Initialize elements.
   elements.forEach(el => el.innerHTML = "processed");
@@ -32,7 +35,7 @@ element.</p>
 ```
 **Example** *(Use as a regular script)*  
 ```js
-<script src="https://unpkg.com/once-dom@2.0.1/dist/once.min.js"></script>
+<script src="https://unpkg.com/once-dom@latest/dist/once.min.js"></script>
 <script>
   const elements = once("my-id", document.querySelectorAll("div"));
   // Initialize elements.
@@ -42,8 +45,8 @@ element.</p>
 **Example** *(Use jQuery integration)*  
 ```js
 <script src="https://unpkg.com/jquery@3.5.1/dist/jquery.min.js"></script>
-<script src="https://unpkg.com/once-dom@2.0.1/dist/once.min.js"></script>
-<script src="https://unpkg.com/once-dom@2.0.1/dist/once.jquery.min.js"></script>
+<script src="https://unpkg.com/once-dom@latest/dist/once.min.js"></script>
+<script src="https://unpkg.com/once-dom@latest/dist/once.jquery.min.js"></script>
 <script>
   jQuery("div")
     .once("my-id")
@@ -59,7 +62,7 @@ Ensures a JavaScript callback is only executed once on a set of elements.
 
 Filters a NodeList or array of elements, removing those already processed
 by a callback with a given id.
-This method adds the data-drupal-once attribute on DOM elements. The value of
+This method adds a `data-once` attribute on DOM elements. The value of
 this attribute identifies if a given callback has been executed on that
 element.
 

@@ -5,17 +5,17 @@ Select and filter DOM elements to process them only once.
 ## Documentation and examples
 
 **Example** *(Use as a module)*
-```js
+```html
 <script type="module">
-  import once from "https://unpkg.com/once-dom@2.0.1/src/once.js";
+  import once from "https://unpkg.com/once-dom@latest/src/once.js";
   const elements = once("my-id", document.querySelectorAll("div"));
   // Initialize elements.
   elements.forEach(el => el.innerHTML = "processed");
 </script>
 ```
 **Example** *(Use as a regular script)*
-```js
-<script src="https://unpkg.com/once-dom@2.0.1/dist/once.min.js"></script>
+```html
+<script src="https://unpkg.com/once-dom@latest/dist/once.min.js"></script>
 <script>
   const elements = once("my-id", document.querySelectorAll("div"));
   // Initialize elements.
@@ -23,10 +23,10 @@ Select and filter DOM elements to process them only once.
 </script>
 ```
 **Example** *(Use jQuery integration)*
-```js
+```html
 <script src="https://unpkg.com/jquery@3.5.1/dist/jquery.min.js"></script>
-<script src="https://unpkg.com/once-dom@2.0.1/dist/once.min.js"></script>
-<script src="https://unpkg.com/once-dom@2.0.1/dist/once.jquery.min.js"></script>
+<script src="https://unpkg.com/once-dom@latest/dist/once.min.js"></script>
+<script src="https://unpkg.com/once-dom@latest/dist/once.jquery.min.js"></script>
 <script>
   jQuery("div")
     .once("my-id")
