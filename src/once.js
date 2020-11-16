@@ -51,7 +51,7 @@ const wsRE = /[\11\12\14\15\40]+/;
  *
  * @type {string}
  */
-const attrName = "data-once";
+const attrName = 'data-once';
 
 /**
  * Verify the validity of the once id.
@@ -67,12 +67,12 @@ const attrName = "data-once";
  * @throws {TypeError|RangeError}
  */
 function checkId(id) {
-  if (typeof id !== "string") {
-    throw new TypeError("The once id parameter must be a string");
+  if (typeof id !== 'string') {
+    throw new TypeError('The once id parameter must be a string');
   }
-  if (id === "" || wsRE.test(id)) {
+  if (id === '' || wsRE.test(id)) {
     throw new RangeError(
-      "The once id parameter must not be empty or contain spaces"
+      'The once id parameter must not be empty or contain spaces',
     );
   }
   return id;
@@ -97,7 +97,7 @@ function checkId(id) {
  */
 function checkElement(itemToCheck) {
   if (!(itemToCheck instanceof Element)) {
-    throw new TypeError("The element must be an instance of Element");
+    throw new TypeError('The element must be an instance of Element');
   }
   return true;
 }
@@ -162,7 +162,7 @@ function updateAttribute({ value, add, remove }) {
   if (add) {
     result.push(add);
   }
-  return result.join(" ");
+  return result.join(' ');
 }
 
 /**
@@ -201,11 +201,11 @@ function once(id, elements) {
       if (element.hasAttribute(attrName)) {
         value = updateAttribute({
           value: element.getAttribute(attrName),
-          add: dataId
+          add: dataId,
         });
       }
       element.setAttribute(attrName, value);
-    }
+    },
   );
 }
 
@@ -238,9 +238,9 @@ once.remove = (id, elements) => {
   return filterAndModify(elements, `[${attrName}~="${dataId}"]`, element => {
     const value = updateAttribute({
       value: element.getAttribute(attrName),
-      remove: dataId
+      remove: dataId,
     });
-    if (value === "") {
+    if (value === '') {
       element.removeAttribute(attrName);
     } else {
       element.setAttribute(attrName, value);
@@ -302,7 +302,7 @@ once.find = (id, context = document.documentElement) => {
     checkElement(context) &&
     // Ensure the return is an Array and not a NodeList.
     Array.prototype.slice.call(
-      context.querySelectorAll(`[${attrName}~="${dataId}"]`)
+      context.querySelectorAll(`[${attrName}~="${dataId}"]`),
     )
   );
 };
