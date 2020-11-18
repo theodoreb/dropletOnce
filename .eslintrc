@@ -4,10 +4,10 @@
 	],
   "env": {
     "browser": true,
-    "node": true
+    "node": true,
+    "mocha": true
   },
 	"globals": {
-		"once": true,
-    "jQuery": true
+		"once": true
 	}
 }
