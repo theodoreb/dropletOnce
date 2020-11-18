@@ -5,9 +5,8 @@ import pkg from './package.json';
 const plugins = [
   // Transform down to ES5, do not error out on export/import lines.
   buble({ transforms: { modules: false } }),
-  // Minify resulting ES5 code, allow top-level mangling and keep banner comment.
+  // Minify resulting ES5 code, keep banner comment.
   terser({
-    module: true,
     format: { comments: /^ once/ },
   }),
 ];
@@ -23,8 +22,8 @@ export default [
   {
     input: 'src/once.js',
     output: [
-      { ...output, file: pkg.main, format: 'esm' },
       { ...output, file: pkg.browser, format: 'iife' },
+      { ...output, file: pkg.main, format: 'esm' },
       { ...output, file: pkg.umd, format: 'umd' },
     ],
     plugins,
