@@ -42,7 +42,7 @@ export default [
     input: 'src/once.js',
     output: [
       { ...step1.out, file: pkg.browser.replace('.min', ''), format: 'iife' },
-      { ...step1.out, file: pkg.module.replace('.min', ''), format: 'esm' },
+      { ...step1.out, file: pkg.main.replace('.min', ''), format: 'esm' },
       { ...step1.out, file: pkg.umd.replace('.min', ''), format: 'umd' },
     ],
     plugins: step1.plugins,
