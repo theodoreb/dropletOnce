@@ -2,7 +2,7 @@
   "name": "once-dom",
   "title": "once",
   "description": "Act on elements only once.",
-  "version": "2.1.1",
+  "version": "3.0.0",
   "keywords": [
     "dom"
   ],
