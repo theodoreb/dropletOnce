@@ -14,10 +14,10 @@
     "Kay Leung (https://github.com/KayLeung)"
   ],
   "type": "module",
-  "main": "dist/once.esm.js",
-  "module": "dist/once.esm.js",
+  "main": "dist/once.esm.min.js",
+  "module": "dist/once.esm.min.js",
   "browser": "dist/once.min.js",
-  "umd": "dist/once.umd.js",
+  "umd": "dist/once.umd.min.js",
   "files": [
     "src",
     "dist",
