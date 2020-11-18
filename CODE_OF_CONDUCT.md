@@ -1,4 +1,4 @@
-Code of Conduct
+# Code of Conduct
 
 This project is governed by the Drupal Code of Conduct (“DCOC”).
 The DCOC consists of six ideals, listed below.

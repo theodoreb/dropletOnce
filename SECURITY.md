@@ -1,4 +1,4 @@
-Security Policy
+# Security Policy
 
 This project is covered by the Drupal security advisory process, which is
 facilitated by the Drupal Security Team. To report a security vulnerability,
