@@ -7,7 +7,7 @@ Select and filter DOM elements to process them only once.
 **Example** *(Use as a module)*
 ```html
 <script type="module">
-  import once from "https://unpkg.com/once-dom@latest/src/once.js";
+  import once from "https://unpkg.com/once-dom@latest/dist/once.esm.js";
   const elements = once("my-id", document.querySelectorAll("div"));
   // Initialize elements.
   elements.forEach(el => el.innerHTML = "processed");
@@ -20,19 +20,6 @@ Select and filter DOM elements to process them only once.
   const elements = once("my-id", document.querySelectorAll("div"));
   // Initialize elements.
   elements.forEach(el => el.innerHTML = "processed");
-</script>
-```
-**Example** *(Use jQuery integration)*
-```html
-<script src="https://unpkg.com/jquery@3.5.1/dist/jquery.min.js"></script>
-<script src="https://unpkg.com/once-dom@latest/dist/once.min.js"></script>
-<script src="https://unpkg.com/once-dom@latest/dist/once.jquery.min.js"></script>
-<script>
-  jQuery("div")
-    .once("my-id")
-    .each(function () {
-      this.innerHTML = "processed";
-    });
 </script>
 ```
 

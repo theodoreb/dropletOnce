@@ -27,7 +27,7 @@ Mark DOM elements as processed to prevent multiple initializations.
 **Example** *(Use as a module)*  
 ```js
 <script type="module">
-  import once from "https://unpkg.com/once-dom@latest/src/once.js";
+  import once from "https://unpkg.com/once-dom@latest/dist/once.esm.js";
   const elements = once("my-id", document.querySelectorAll("div"));
   // Initialize elements.
   elements.forEach(el => el.innerHTML = "processed");
@@ -40,19 +40,6 @@ Mark DOM elements as processed to prevent multiple initializations.
   const elements = once("my-id", document.querySelectorAll("div"));
   // Initialize elements.
   elements.forEach(el => el.innerHTML = "processed");
-</script>
-```
-**Example** *(Use jQuery integration)*  
-```js
-<script src="https://unpkg.com/jquery@3.5.1/dist/jquery.min.js"></script>
-<script src="https://unpkg.com/once-dom@latest/dist/once.min.js"></script>
-<script src="https://unpkg.com/once-dom@latest/dist/once.jquery.min.js"></script>
-<script>
-  jQuery("div")
-    .once("my-id")
-    .each(function () {
-      this.innerHTML = "processed";
-    });
 </script>
 ```
 <a name="once"></a>

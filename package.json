@@ -4,7 +4,6 @@
   "description": "Act on elements only once.",
   "version": "2.1.1",
   "keywords": [
-    "jquery",
     "dom"
   ],
   "repo": "theodoreb/once",
@@ -15,9 +14,16 @@
     "Kay Leung (https://github.com/KayLeung)"
   ],
   "type": "module",
-  "main": "src/once.js",
-  "module": "src/once.js",
+  "main": "dist/once.esm.js",
+  "module": "dist/once.esm.js",
   "browser": "dist/once.min.js",
+  "umd": "dist/once.umd.js",
+  "files": [
+    "src",
+    "dist",
+    "API.md",
+    "SECURITY.txt"
+  ],
   "contributors": [
     "KayLeung (https://github.com/KayLeung)",
     "JohnAlbin (https://github.com/JohnAlbin)",
@@ -45,7 +51,6 @@
     "@web/test-runner-playwright": "^0.6.4",
     "eslint": "^7.11.0",
     "eslint-config-drupal": "^5.0.2",
-    "jquery": "^3.5.1",
     "jsdoc-to-markdown": "^6.0.1",
     "rollup": "^2.33.1",
     "rollup-plugin-terser": "^7.0.2",
@@ -54,12 +59,12 @@
   "scripts": {
     "build": "rollup -c",
     "test": "web-test-runner 'test/*.test.html' --node-resolve --playwright --browsers chromium firefox",
-    "lint": "eslint src/ rollup.config.js",
+    "validate": "npm test",
+    "lint": "eslint src/ test/ rollup.config.js",
     "docs": "jsdoc2md src/once.js > API.md",
-    "prebuild": "npm run lint",
+    "pretest": "npm run lint",
     "postbuild": "npm run docs",
-    "pretest": "npm run build",
-    "prepack": "npm test",
+    "prepack": "npm test && npm run build",
     "version": "npm run build && git add -A dist -f",
     "postversion": "git push && git push --tags"
   }

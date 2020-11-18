@@ -6,32 +6,27 @@ const plugins = [
   // Transform down to ES5, do not error out on export/import lines.
   buble({ transforms: { modules: false } }),
   // Minify resulting ES5 code, allow top-level mangling and keep banner comment.
-  terser({ module: true, format: { comments: /^ v/ } }),
+  terser({
+    module: true,
+    format: { comments: /^ once/ },
+  }),
 ];
 
-// Add version and date to generated files.
-const banner = `/* v${pkg.version} - ${new Date().toJSON().split('T')[0]} */`;
+const output = {
+  name: 'once',
+  sourcemap: 'hidden',
+  // Add version and date to generated files.
+  banner: `/* once - v${pkg.version} - ${new Date().toJSON().split('T')[0]} */`,
+};
 
 export default [
   {
     input: 'src/once.js',
-    output: {
-      name: 'once',
-      file: pkg.browser,
-      format: 'umd',
-      sourcemap: true,
-      banner,
-    },
-    plugins,
-  },
-  {
-    input: 'src/once.jquery.js',
-    output: {
-      file: 'dist/once.jquery.min.js',
-      format: 'iife',
-      sourcemap: true,
-      banner,
-    },
+    output: [
+      { ...output, file: pkg.main, format: 'esm' },
+      { ...output, file: pkg.browser, format: 'iife' },
+      { ...output, file: pkg.umd, format: 'umd' },
+    ],
     plugins,
   },
 ];
