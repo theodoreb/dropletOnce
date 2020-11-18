@@ -62,9 +62,10 @@
     "lint": "eslint src/ test/ rollup.config.js",
     "docs": "jsdoc2md src/once.js > API.md",
     "pretest": "npm run lint",
-    "postbuild": "npm run docs",
-    "prepack": "npm test && npm run build",
+    "prebuild": "npm run docs",
+    "preversion": "npm test",
     "version": "npm run build && git add -A dist -f",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags",
+    "prepublishOnly": "npm test && npm run build"
   }
 }
