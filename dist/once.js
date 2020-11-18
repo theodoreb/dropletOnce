@@ -1,9 +1,6 @@
 /* once - v3.1.0 - 2020-11-18 */
-(function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define(factory) :
-  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.once = factory());
-}(this, (function () { 'use strict';
+var once = (function () {
+  'use strict';
 
   /**
    * Mark DOM elements as processed to prevent multiple initializations.
@@ -301,4 +298,4 @@
 
   return once;
 
-})));
+}());
