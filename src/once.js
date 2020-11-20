@@ -39,6 +39,15 @@ const wsRE = /[\11\12\14\15\40]+/;
 const attrName = 'data-once';
 
 /**
+ * Shortcut to access the html element.
+ *
+ * @private
+ *
+ * @type {HTMLElement}
+ */
+const html = document.documentElement;
+
+/**
  * Verify the validity of the once id.
  *
  * @private
@@ -94,12 +103,12 @@ function checkElement(itemToCheck) {
  *
  * @param {string} id
  *   The id of the once call.
- * @param {NodeList|Array.<Element>|Element|string} input
+ * @param {NodeList|Array.<Element>|Element|document|string} input
  *   A NodeList or array of elements.
  * @param {HTMLElement} [context=document.documentElement]
  *   An element to use as context for querySelectorAll.
  */
-function processArgs(id, input, context = document.documentElement) {
+function processArgs(id, input, context = html) {
   let elements = input;
 
   // This is a selector, query the elements.
@@ -107,8 +116,12 @@ function processArgs(id, input, context = document.documentElement) {
     checkElement(context);
     elements = context.querySelectorAll(input);
   }
+  // `document` object is not an Element, point to `<html>`.
+  else if (input === document) {
+    elements = [html];
+  }
   // This is a single element.
-  if (input instanceof Element) {
+  else if (input instanceof Element) {
     elements = [input];
   }
 
@@ -197,7 +210,7 @@ function updateAttribute({ value, add, remove }) {
  *
  * @param  {string} id
  *   The id of the once call.
- * @param {NodeList|Array.<Element>|Element|string} input
+ * @param {NodeList|Array.<Element>|Element|document|string} input
  *   A NodeList or array of elements.
  * @param {HTMLElement} [context=document.documentElement]
  *   An element to use as context for querySelectorAll.
@@ -241,7 +254,7 @@ function once(id, input, context) {
  *
  * @param  {string} id
  *   The id of a once call.
- * @param  {NodeList|Array.<Element>|Element|string} input
+ * @param  {NodeList|Array.<Element>|Element|document|string} input
  *   A NodeList or array of elements to remove the once id from.
  * @param {HTMLElement} [context=document.documentElement]
  *   An element to use as context for querySelectorAll.
@@ -313,7 +326,7 @@ once.filter = (id, elements) => {
  *   A filtered array of elements that have already been processed by the
  *   provided once id.
  */
-once.find = (id, context = document.documentElement) => {
+once.find = (id, context = html) => {
   const dataId = checkId(id);
   return (
     checkElement(context) &&

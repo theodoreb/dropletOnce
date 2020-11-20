@@ -60,7 +60,7 @@ element.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | id | <code>string</code> |  | The id of the once call. |
-| input | <code>NodeList</code> \| <code>Array.&lt;Element&gt;</code> \| <code>Element</code> \| <code>string</code> |  | A NodeList or array of elements. |
+| input | <code>NodeList</code> \| <code>Array.&lt;Element&gt;</code> \| <code>Element</code> \| <code>document</code> \| <code>string</code> |  | A NodeList or array of elements. |
 | [context] | <code>HTMLElement</code> | <code>document.documentElement</code> | An element to use as context for querySelectorAll. |
 
 **Example**  
@@ -92,7 +92,7 @@ element again.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | id | <code>string</code> |  | The id of a once call. |
-| input | <code>NodeList</code> \| <code>Array.&lt;Element&gt;</code> \| <code>Element</code> \| <code>string</code> |  | A NodeList or array of elements to remove the once id from. |
+| input | <code>NodeList</code> \| <code>Array.&lt;Element&gt;</code> \| <code>Element</code> \| <code>document</code> \| <code>string</code> |  | A NodeList or array of elements to remove the once id from. |
 | [context] | <code>HTMLElement</code> | <code>document.documentElement</code> | An element to use as context for querySelectorAll. |
 
 **Example**  
