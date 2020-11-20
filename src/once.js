@@ -88,6 +88,34 @@ function checkElement(itemToCheck) {
 }
 
 /**
+ * Process arguments, query the DOM if necessary.
+ *
+ * @private
+ *
+ * @param {string} id
+ *   The id of the once call.
+ * @param {NodeList|Array.<Element>|Element|string} input
+ *   A NodeList or array of elements.
+ * @param {HTMLElement} [context=document.documentElement]
+ *   An element to use as context for querySelectorAll.
+ */
+function processArgs(id, input, context = document.documentElement) {
+  let elements = input;
+
+  // This is a selector, query the elements.
+  if (typeof input === 'string') {
+    checkElement(context);
+    elements = context.querySelectorAll(input);
+  }
+  // This is a single element.
+  if (input instanceof Element) {
+    elements = [input];
+  }
+
+  return [checkId(id), elements];
+}
+
+/**
  * A helper for applying DOM changes to a filtered set of elements.
  *
  * This makes it possible to filter items that are not instances of Element,
@@ -169,15 +197,17 @@ function updateAttribute({ value, add, remove }) {
  *
  * @param  {string} id
  *   The id of the once call.
- * @param  {NodeList|Array.<Element>} elements
+ * @param {NodeList|Array.<Element>|Element|string} input
  *   A NodeList or array of elements.
+ * @param {HTMLElement} [context=document.documentElement]
+ *   An element to use as context for querySelectorAll.
  *
  * @return {Array.<Element>}
  *   An array of elements that have not yet been processed by a once call
  *   with a given id.
  */
-function once(id, elements) {
-  const dataId = checkId(id);
+function once(id, input, context) {
+  const [dataId, elements] = processArgs(id, input, context);
   return filterAndModify(
     elements,
     `:not([${attrName}~="${dataId}"])`,
@@ -211,15 +241,17 @@ function once(id, elements) {
  *
  * @param  {string} id
  *   The id of a once call.
- * @param  {NodeList|Array.<Element>} elements
+ * @param  {NodeList|Array.<Element>|Element|string} input
  *   A NodeList or array of elements to remove the once id from.
+ * @param {HTMLElement} [context=document.documentElement]
+ *   An element to use as context for querySelectorAll.
  *
  * @return {Array.<Element>}
  *   A filtered array of elements that had been processed by the provided id,
  *   and are now able to be processed again.
  */
-once.remove = (id, elements) => {
-  const dataId = checkId(id);
+once.remove = (id, input, context) => {
+  const [dataId, elements] = processArgs(id, input, context);
   return filterAndModify(elements, `[${attrName}~="${dataId}"]`, element => {
     const value = updateAttribute({
       value: element.getAttribute(attrName),

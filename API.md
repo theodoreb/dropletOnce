@@ -9,7 +9,7 @@
 ## Functions
 
 <dl>
-<dt><a href="#once">once(id, elements)</a> ⇒ <code>Array.&lt;Element&gt;</code></dt>
+<dt><a href="#once">once(id, input, [context])</a> ⇒ <code>Array.&lt;Element&gt;</code></dt>
 <dd><p>Ensures a JavaScript callback is only executed once on a set of elements.</p>
 <p>Filters a NodeList or array of elements, removing those already processed
 by a callback with a given id.
@@ -44,7 +44,7 @@ Mark DOM elements as processed to prevent multiple initializations.
 ```
 <a name="once"></a>
 
-## once(id, elements) ⇒ <code>Array.&lt;Element&gt;</code>
+## once(id, input, [context]) ⇒ <code>Array.&lt;Element&gt;</code>
 Ensures a JavaScript callback is only executed once on a set of elements.
 
 Filters a NodeList or array of elements, removing those already processed
@@ -57,10 +57,11 @@ element.
 **Returns**: <code>Array.&lt;Element&gt;</code> - An array of elements that have not yet been processed by a once call
   with a given id.  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| id | <code>string</code> | The id of the once call. |
-| elements | <code>NodeList</code> \| <code>Array.&lt;Element&gt;</code> | A NodeList or array of elements. |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| id | <code>string</code> |  | The id of the once call. |
+| input | <code>NodeList</code> \| <code>Array.&lt;Element&gt;</code> \| <code>Element</code> \| <code>string</code> |  | A NodeList or array of elements. |
+| [context] | <code>HTMLElement</code> | <code>document.documentElement</code> | An element to use as context for querySelectorAll. |
 
 **Example**  
 ```js
@@ -70,14 +71,14 @@ const elements = once(
 );
 ```
 
-* [once(id, elements)](#once) ⇒ <code>Array.&lt;Element&gt;</code>
-    * [.remove(id, elements)](#once.remove) ⇒ <code>Array.&lt;Element&gt;</code>
+* [once(id, input, [context])](#once) ⇒ <code>Array.&lt;Element&gt;</code>
+    * [.remove(id, input, [context])](#once.remove) ⇒ <code>Array.&lt;Element&gt;</code>
     * [.filter(id, elements)](#once.filter) ⇒ <code>Array.&lt;Element&gt;</code>
     * [.find(id, [context])](#once.find) ⇒ <code>Array.&lt;Element&gt;</code>
 
 <a name="once.remove"></a>
 
-### once.remove(id, elements) ⇒ <code>Array.&lt;Element&gt;</code>
+### once.remove(id, input, [context]) ⇒ <code>Array.&lt;Element&gt;</code>
 Removes a once id from an element's data-drupal-once attribute value.
 
 If a once id is removed from an element's data-drupal-once attribute value,
@@ -88,10 +89,11 @@ element again.
 **Returns**: <code>Array.&lt;Element&gt;</code> - A filtered array of elements that had been processed by the provided id,
   and are now able to be processed again.  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| id | <code>string</code> | The id of a once call. |
-| elements | <code>NodeList</code> \| <code>Array.&lt;Element&gt;</code> | A NodeList or array of elements to remove the once id from. |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| id | <code>string</code> |  | The id of a once call. |
+| input | <code>NodeList</code> \| <code>Array.&lt;Element&gt;</code> \| <code>Element</code> \| <code>string</code> |  | A NodeList or array of elements to remove the once id from. |
+| [context] | <code>HTMLElement</code> | <code>document.documentElement</code> | An element to use as context for querySelectorAll. |
 
 **Example**  
 ```js
