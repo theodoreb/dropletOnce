@@ -67,7 +67,7 @@ element.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | id | <code>string</code> |  | The id of the once call. |
-| selector | <code>NodeList</code> \| <code>Array.&lt;Element&gt;</code> \| <code>Element</code> \| <code>document</code> \| <code>string</code> |  | A NodeList or array of elements. |
+| selector | <code>NodeList</code> \| <code>Array.&lt;Element&gt;</code> \| <code>Element</code> \| <code>string</code> |  | A NodeList or array of elements. |
 | [context] | <code>HTMLElement</code> | <code>document.documentElement</code> | An element to use as context for querySelectorAll. |
 
 **Example** *(Basic usage)*  
@@ -86,8 +86,6 @@ once('my-once-id', '[data-myelement]');
 once('my-once-id', '[data-myelement]', document.head);
 // Single Element.
 once('my-once-id', document.querySelector('#some-id'));
-// Using document. Warning, see below.
-once('my-once-id', document);
 ```
 **Example** *(Using a single element)*  
 ```js
@@ -97,17 +95,6 @@ once('my-once-id', document);
 const [myElement] = once('my-once-id', document.body);
 // By changing the resulting array, es5 compatible.
 const myElement = once('my-once-id', document.body).shift();
-```
-**Example** *(Using document)*  
-```js
-// Using document, the once will be applied to the <html> element and
-// the <html> element will be returned.
-once('my-once-id', document); // Warning! return [document.documentElement].
-// Using document is supported as a type of global switch when the element
-// being processed is not important.
-if (once('my-global-id', document).shift()) {
-  // Process something else.
-}
 ```
 
 * [once(id, selector, [context])](#once) ⇒ <code>Array.&lt;Element&gt;</code>
@@ -133,7 +120,7 @@ const elements = once.remove('my-once-id', '[data-myelement]');
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | id | <code>string</code> |  | The id of a once call. |
-| selector | <code>NodeList</code> \| <code>Array.&lt;Element&gt;</code> \| <code>Element</code> \| <code>document</code> \| <code>string</code> |  | A NodeList or array of elements to remove the once id from. |
+| selector | <code>NodeList</code> \| <code>Array.&lt;Element&gt;</code> \| <code>Element</code> \| <code>string</code> |  | A NodeList or array of elements to remove the once id from. |
 | [context] | <code>HTMLElement</code> | <code>document.documentElement</code> | An element to use as context for querySelectorAll. |
 
 **Example** *(Input parameters accepted)*  
@@ -148,19 +135,6 @@ once.remove('my-once-id', '[data-myelement]');
 once.remove('my-once-id', '[data-myelement]', document.head);
 // Single Element.
 once.remove('my-once-id', document.querySelector('#some-id'));
-// Using document. Warning, see below.
-once.remove('my-once-id', document);
-```
-**Example** *(Using document)*  
-```js
-// Using document, the once will be applied to the <html> element and
-// the <html> element will be returned.
-once.remove('my-once-id', document); // Warning! return [document.documentElement].
-// Using document is supported as a type of global switch when the element
-// being processed is not important.
-if (once.remove('my-global-id', document).shift()) {
-  // Unprocess something else.
-}
 ```
 <a name="once.filter"></a>
 

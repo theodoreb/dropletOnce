@@ -108,7 +108,7 @@ function checkElement(itemToCheck) {
  *
  * @param {string} id
  *   The id of the once call.
- * @param {NodeList|Array.<Element>|Element|document|string} selector
+ * @param {NodeList|Array.<Element>|Element|string} selector
  *   A NodeList or array of elements.
  * @param {HTMLElement} [context=document.documentElement]
  *   An element to use as context for querySelectorAll.
@@ -122,10 +122,6 @@ function processArgs(id, selector, context = html) {
   // This is a selector, query the elements.
   if (typeof selector === 'string' && checkElement(context)) {
     elements = context.querySelectorAll(selector);
-  }
-  // `document` object is not an Element, point to `<html>`.
-  else if (selector === document) {
-    elements = [html];
   }
   // This is a single element.
   else if (selector instanceof Element) {
@@ -222,8 +218,6 @@ function updateAttribute({ value, add, remove }) {
  * once('my-once-id', '[data-myelement]', document.head);
  * // Single Element.
  * once('my-once-id', document.querySelector('#some-id'));
- * // Using document. Warning, see below.
- * once('my-once-id', document);
  * @example <caption>Using a single element</caption>
  * // Once always returns an array, event when passing a single element. Some
  * // forms that can be used to keep code readable.
@@ -231,19 +225,10 @@ function updateAttribute({ value, add, remove }) {
  * const [myElement] = once('my-once-id', document.body);
  * // By changing the resulting array, es5 compatible.
  * const myElement = once('my-once-id', document.body).shift();
- * @example <caption>Using document</caption>
- * // Using document, the once will be applied to the <html> element and
- * // the <html> element will be returned.
- * once('my-once-id', document); // Warning! return [document.documentElement].
- * // Using document is supported as a type of global switch when the element
- * // being processed is not important.
- * if (once('my-global-id', document).shift()) {
- *   // Process something else.
- * }
  *
  * @param  {string} id
  *   The id of the once call.
- * @param {NodeList|Array.<Element>|Element|document|string} selector
+ * @param {NodeList|Array.<Element>|Element|string} selector
  *   A NodeList or array of elements.
  * @param {HTMLElement} [context=document.documentElement]
  *   An element to use as context for querySelectorAll.
@@ -292,21 +277,10 @@ function once(id, selector, context) {
  * once.remove('my-once-id', '[data-myelement]', document.head);
  * // Single Element.
  * once.remove('my-once-id', document.querySelector('#some-id'));
- * // Using document. Warning, see below.
- * once.remove('my-once-id', document);
- * @example <caption>Using document</caption>
- * // Using document, the once will be applied to the <html> element and
- * // the <html> element will be returned.
- * once.remove('my-once-id', document); // Warning! return [document.documentElement].
- * // Using document is supported as a type of global switch when the element
- * // being processed is not important.
- * if (once.remove('my-global-id', document).shift()) {
- *   // Unprocess something else.
- * }
  *
  * @param  {string} id
  *   The id of a once call.
- * @param  {NodeList|Array.<Element>|Element|document|string} selector
+ * @param  {NodeList|Array.<Element>|Element|string} selector
  *   A NodeList or array of elements to remove the once id from.
  * @param {HTMLElement} [context=document.documentElement]
  *   An element to use as context for querySelectorAll.
