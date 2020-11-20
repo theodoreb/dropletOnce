@@ -7,19 +7,19 @@ Select and filter DOM elements to process them only once.
 **Example** *(Use as a module)*
 ```html
 <script type="module">
-  import once from "https://unpkg.com/once-dom@latest/dist/once.esm.js";
-  const elements = once("my-id", document.querySelectorAll("div"));
+  import once from 'https://unpkg.com/once-dom@latest/dist/once.esm.js';
+  const elements = once('my-once-id', 'div');
   // Initialize elements.
-  elements.forEach(el => el.innerHTML = "processed");
+  elements.forEach(el => el.innerHTML = 'processed');
 </script>
 ```
 **Example** *(Use as a regular script)*
 ```html
 <script src="https://unpkg.com/once-dom@latest/dist/once.min.js"></script>
 <script>
-  const elements = once("my-id", document.querySelectorAll("div"));
+  const elements = once('my-once-id', 'div');
   // Initialize elements.
-  elements.forEach(el => el.innerHTML = "processed");
+  elements.forEach(el => el.innerHTML = 'processed');
 </script>
 ```
 
