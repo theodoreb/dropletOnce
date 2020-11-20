@@ -138,7 +138,8 @@ describe('once', () => {
     // Check the return of the function.
     expect(once('test12', document))
       .to.be.a('array')
-      .with.lengthOf(1);
+      .with.lengthOf(1)
+      .deep.equal([html]);
 
     // Make sure the DOM has been updated properly.
     expect(html).to.have.attribute('data-once', 'test12');
@@ -146,7 +147,8 @@ describe('once', () => {
     // Check the return of the function.
     expect(once.remove('test12', document))
       .to.be.a('array')
-      .with.lengthOf(1);
+      .with.lengthOf(1)
+      .deep.equal([html]);
 
     // Make sure the DOM has been updated properly.
     expect(html).to.not.have.attribute('data-once');

@@ -18,6 +18,11 @@
  *   // Initialize elements.
  *   elements.forEach(el => el.innerHTML = 'processed');
  * </script>
+ * @example <caption>Using a single element as input</caption>
+ * // once methods always return an array, to simplify the use with a single
+ * // element use destructuring or the shift method.
+ * const [myElement] = once('my-once-id', document.body);
+ * const myElement = once('my-once-id', document.body).shift();
  */
 
 /**
@@ -212,14 +217,30 @@ function updateAttribute({ value, add, remove }) {
  * once('my-once-id', document.querySelectorAll('[data-myelement]'));
  * // Array or Array-like of Element.
  * once('my-once-id', jQuery('[data-myelement]'));
- * // Single Element.
- * once('my-once-id', document.querySelector('#some-id'));
- * // Alias for document, the once will be applied to the <html> element.
- * once('my-once-id', document);
  * // A CSS selector without a context.
  * once('my-once-id', '[data-myelement]');
  * // A CSS selector with a context.
  * once('my-once-id', '[data-myelement]', document.head);
+ * // Single Element.
+ * once('my-once-id', document.querySelector('#some-id'));
+ * // Using document. Warning, see below.
+ * once('my-once-id', document);
+ * @example <caption>Using a single element</caption>
+ * // Once always returns an array, event when passing a single element. Some
+ * // forms that can be used to keep code readable.
+ * // Destructuring:
+ * const [myElement] = once('my-once-id', document.body);
+ * // By changing the resulting array, es5 compatible.
+ * const myElement = once('my-once-id', document.body).shift();
+ * @example <caption>Using document</caption>
+ * // Using document, the once will be applied to the <html> element and
+ * // the <html> element will be returned.
+ * once('my-once-id', document); // Warning! return [document.documentElement].
+ * // Using document is supported as a type of global switch when the element
+ * // being processed is not important.
+ * if (once('my-global-id', document).shift()) {
+ *   // Process something else.
+ * }
  *
  * @param  {string} id
  *   The id of the once call.
@@ -266,14 +287,23 @@ function once(id, selector, context) {
  * once.remove('my-once-id', document.querySelectorAll('[data-myelement]'));
  * // Array or Array-like of Element.
  * once.remove('my-once-id', jQuery('[data-myelement]'));
- * // Single Element.
- * once.remove('my-once-id', document.querySelector('#some-id'));
- * // Alias for document, the once will be applied to the <html> element.
- * once.remove('my-once-id', document);
  * // A CSS selector without a context.
  * once.remove('my-once-id', '[data-myelement]');
  * // A CSS selector with a context.
  * once.remove('my-once-id', '[data-myelement]', document.head);
+ * // Single Element.
+ * once.remove('my-once-id', document.querySelector('#some-id'));
+ * // Using document. Warning, see below.
+ * once.remove('my-once-id', document);
+ * @example <caption>Using document</caption>
+ * // Using document, the once will be applied to the <html> element and
+ * // the <html> element will be returned.
+ * once.remove('my-once-id', document); // Warning! return [document.documentElement].
+ * // Using document is supported as a type of global switch when the element
+ * // being processed is not important.
+ * if (once.remove('my-global-id', document).shift()) {
+ *   // Unprocess something else.
+ * }
  *
  * @param  {string} id
  *   The id of a once call.
