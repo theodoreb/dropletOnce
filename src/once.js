@@ -120,8 +120,7 @@ function processArgs(id, selector, context = html) {
   let elements = selector;
 
   // This is a selector, query the elements.
-  if (typeof selector === 'string') {
-    checkElement(context);
+  if (typeof selector === 'string' && checkElement(context)) {
     elements = context.querySelectorAll(selector);
   }
   // `document` object is not an Element, point to `<html>`.
