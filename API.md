@@ -114,8 +114,6 @@ element again.
 **Kind**: static method of [<code>once</code>](#once)  
 **Returns**: <code>Array.&lt;Element&gt;</code> - A filtered array of elements that had been processed by the provided id,
   and are now able to be processed again.  
-**Example&lt;caption&gt;basic**: usage</caption>
-const elements = once.remove('my-once-id', '[data-myelement]');  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -123,6 +121,10 @@ const elements = once.remove('my-once-id', '[data-myelement]');
 | selector | <code>NodeList</code> \| <code>Array.&lt;Element&gt;</code> \| <code>Element</code> \| <code>string</code> |  | A NodeList or array of elements to remove the once id from. |
 | [context] | <code>HTMLElement</code> | <code>document.documentElement</code> | An element to use as context for querySelectorAll. |
 
+**Example** *(Basic usage)*  
+```js
+const elements = once.remove('my-once-id', '[data-myelement]');
+```
 **Example** *(Input parameters accepted)*  
 ```js
 // NodeList.
@@ -147,14 +149,16 @@ processed by the provided once id. If a selector is needed use the [find](#once.
 **Kind**: static method of [<code>once</code>](#once)  
 **Returns**: <code>Array.&lt;Element&gt;</code> - A filtered array of elements that have already been processed by the
   provided once id.  
-**Example&lt;caption&gt;basic**: usage</caption>
-const filteredElements = once.filter('my-once-id', '[data-myelement]');  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | id | <code>string</code> | The id of the once call. |
 | elements | <code>NodeList</code> \| <code>Array.&lt;Element&gt;</code> | A NodeList or array of elements to be searched. |
 
+**Example** *(Basic usage)*  
+```js
+const filteredElements = once.filter('my-once-id', '[data-myelement]');
+```
 **Example** *(Input parameters accepted)*  
 ```js
 // NodeList.
@@ -173,14 +177,16 @@ corresponding once id value.
 **Kind**: static method of [<code>once</code>](#once)  
 **Returns**: <code>Array.&lt;Element&gt;</code> - A filtered array of elements that have already been processed by the
   provided once id.  
-**Example&lt;caption&gt;basic**: usage</caption>
-const oncedElements = once.find('my-once-id');  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | id | <code>string</code> |  | The id of the once call. |
 | [context] | <code>Element</code> | <code>document.documentElement</code> | Scope of the search for matching elements. |
 
+**Example** *(Basic usage)*  
+```js
+const oncedElements = once.find('my-once-id');
+```
 **Example** *(Input parameters accepted)*  
 ```js
 // Call without a context.

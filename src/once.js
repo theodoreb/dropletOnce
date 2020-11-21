@@ -258,7 +258,7 @@ function updateAttribute({ value, add, remove }) {
  * // By changing the resulting array, es5 compatible.
  * const myElement = once('my-once-id', document.body).shift();
  *
- * @param  {string} id
+ * @param {string} id
  *   The id of the once call.
  * @param {NodeList|Array.<Element>|Element|string} selector
  *   A NodeList or array of elements.
@@ -295,7 +295,7 @@ function once(id, selector, context) {
  *
  * @method once.remove
  *
- * @example<caption>Basic usage</caption>
+ * @example <caption>Basic usage</caption>
  * const elements = once.remove('my-once-id', '[data-myelement]');
  * @example <caption>Input parameters accepted</caption>
  * // NodeList.
@@ -309,9 +309,9 @@ function once(id, selector, context) {
  * // Single Element.
  * once.remove('my-once-id', document.querySelector('#some-id'));
  *
- * @param  {string} id
+ * @param {string} id
  *   The id of a once call.
- * @param  {NodeList|Array.<Element>|Element|string} selector
+ * @param {NodeList|Array.<Element>|Element|string} selector
  *   A NodeList or array of elements to remove the once id from.
  * @param {HTMLElement} [context=document.documentElement]
  *   An element to use as context for querySelectorAll.
@@ -347,7 +347,7 @@ once.remove = (id, selector, context) => {
  *
  * @method once.filter
  *
- * @example<caption>Basic usage</caption>
+ * @example <caption>Basic usage</caption>
  * const filteredElements = once.filter('my-once-id', '[data-myelement]');
  * @example <caption>Input parameters accepted</caption>
  * // NodeList.
@@ -355,9 +355,9 @@ once.remove = (id, selector, context) => {
  * // Array or Array-like of Element.
  * once.filter('my-once-id', jQuery('[data-myelement]'));
  *
- * @param  {string} id
+ * @param {string} id
  *   The id of the once call.
- * @param  {NodeList|Array.<Element>} elements
+ * @param {NodeList|Array.<Element>} elements
  *   A NodeList or array of elements to be searched.
  *
  * @return {Array.<Element>}
@@ -374,7 +374,7 @@ once.filter = (id, elements) => filterAndModify(elements, attrSelector(id));
  *
  * @method once.find
  *
- * @example<caption>Basic usage</caption>
+ * @example <caption>Basic usage</caption>
  * const oncedElements = once.find('my-once-id');
  * @example <caption>Input parameters accepted</caption>
  * // Call without a context.
@@ -382,9 +382,9 @@ once.filter = (id, elements) => filterAndModify(elements, attrSelector(id));
  * // Call with a context.
  * once.find('my-once-id', document.head);
  *
- * @param  {string} id
+ * @param {string} id
  *   The id of the once call.
- * @param  {Element} [context=document.documentElement]
+ * @param {Element} [context=document.documentElement]
  *   Scope of the search for matching elements.
  *
  * @return {Array.<Element>}
