@@ -53,6 +53,25 @@ const attrName = 'data-once';
 const html = document.documentElement;
 
 /**
+ * Helper to access element attributes.
+ *
+ * @private
+ *
+ * @param {Element} element
+ *   The Element to access the data-once attribute from.
+ * @param {string} op
+ *   The action to take on the element.
+ * @param {string} [value]
+ *   Optional value for setAttribute.
+ *
+ * @return {string|undefined|null|boolean}
+ */
+function attr(element, op, value) {
+  const method = `${op}Attribute`;
+  return method in element && element[method](...[attrName, value]);
+}
+
+/**
  * Verify the validity of the once id.
  *
  * @private
@@ -67,14 +86,27 @@ const html = document.documentElement;
  */
 function checkId(id) {
   if (typeof id !== 'string') {
-    throw new TypeError('The once id parameter must be a string');
+    throw new TypeError('once ID must be a string');
   }
   if (id === '' || wsRE.test(id)) {
-    throw new RangeError(
-      'The once id parameter must not be empty or contain spaces',
-    );
+    throw new RangeError('once ID must not be empty or contain spaces');
   }
   return id;
+}
+
+/**
+ * Return the attribute selector.
+ *
+ * @private
+ *
+ * @param {string} id
+ *   The once id to select.
+ *
+ * @return {string}
+ *   The full CSS attribute selector.
+ */
+function attrSelector(id) {
+  return checkId(id) && `[${attrName}~="${id}"]`;
 }
 
 /**
@@ -89,7 +121,7 @@ function checkId(id) {
  * @param {*} itemToCheck
  *   The item to check.
  *
- * @return {bool}
+ * @return {boolean}
  *   True if the item is an instance of Element
  *
  * @throws {TypeError}
@@ -106,17 +138,16 @@ function checkElement(itemToCheck) {
  *
  * @private
  *
- * @param {string} id
- *   The id of the once call.
  * @param {NodeList|Array.<Element>|Element|string} selector
  *   A NodeList or array of elements.
  * @param {HTMLElement} [context=document.documentElement]
  *   An element to use as context for querySelectorAll.
  *
- * @return {Array.<string|Array.<Element>>}
+ * @return {Array.<Element>}
  *   An array with the processed Id and the list of elements to process.
  */
-function processArgs(id, selector, context = html) {
+function getElements(selector, context = html) {
+  // Assume selector is an array-like value.
   let elements = selector;
 
   // This is a selector, query the elements.
@@ -128,7 +159,7 @@ function processArgs(id, selector, context = html) {
     elements = [selector];
   }
 
-  return [checkId(id), elements];
+  return elements;
 }
 
 /**
@@ -238,19 +269,18 @@ function updateAttribute({ value, add, remove }) {
  *   with a given id.
  */
 function once(id, selector, context) {
-  const [dataId, elements] = processArgs(id, selector, context);
   return filterAndModify(
-    elements,
-    `:not([${attrName}~="${dataId}"])`,
+    getElements(selector, context),
+    `:not(${attrSelector(id)})`,
     element => {
-      let value = dataId;
-      if (element.hasAttribute(attrName)) {
+      let value = id;
+      if (attr(element, 'has')) {
         value = updateAttribute({
-          value: element.getAttribute(attrName),
-          add: dataId,
+          value: attr(element, 'get'),
+          add: id,
         });
       }
-      element.setAttribute(attrName, value);
+      attr(element, 'set', value);
     },
   );
 }
@@ -290,18 +320,21 @@ function once(id, selector, context) {
  *   and are now able to be processed again.
  */
 once.remove = (id, selector, context) => {
-  const [dataId, elements] = processArgs(id, selector, context);
-  return filterAndModify(elements, `[${attrName}~="${dataId}"]`, element => {
-    const value = updateAttribute({
-      value: element.getAttribute(attrName),
-      remove: dataId,
-    });
-    if (value === '') {
-      element.removeAttribute(attrName);
-    } else {
-      element.setAttribute(attrName, value);
-    }
-  });
+  return filterAndModify(
+    getElements(selector, context),
+    attrSelector(id),
+    element => {
+      const value = updateAttribute({
+        value: attr(element, 'get'),
+        remove: id,
+      });
+      if (value === '') {
+        attr(element, 'remove');
+      } else {
+        attr(element, 'set', value);
+      }
+    },
+  );
 };
 
 /**
@@ -330,10 +363,7 @@ once.remove = (id, selector, context) => {
  *   A filtered array of elements that have already been processed by the
  *   provided once id.
  */
-once.filter = (id, elements) => {
-  const dataId = checkId(id);
-  return filterAndModify(elements, `[${attrName}~="${dataId}"]`);
-};
+once.filter = (id, elements) => filterAndModify(elements, attrSelector(id));
 
 /**
  * Finds elements that have been processed by a given once id.
@@ -360,15 +390,6 @@ once.filter = (id, elements) => {
  *   A filtered array of elements that have already been processed by the
  *   provided once id.
  */
-once.find = (id, context = html) => {
-  const dataId = checkId(id);
-  return (
-    checkElement(context) &&
-    // Ensure the return is an Array and not a NodeList.
-    Array.prototype.slice.call(
-      context.querySelectorAll(`[${attrName}~="${dataId}"]`),
-    )
-  );
-};
+once.find = (id, context = html) => getElements(attrSelector(id), context);
 
 export default once;
