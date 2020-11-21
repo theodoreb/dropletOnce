@@ -1,4 +1,4 @@
-/* once - v3.1.0 - 2020-11-18 */
+/* once - v3.2.0 - 2020-11-21 */
 var once = (function () {
   'use strict';
 
@@ -9,19 +9,24 @@ var once = (function () {
    *
    * @example <caption>Use as a module</caption>
    * <script type="module">
-   *   import once from "https://unpkg.com/once-dom@latest/dist/once.esm.js";
-   *   const elements = once("my-id", document.querySelectorAll("div"));
+   *   import once from 'https://unpkg.com/once-dom@latest/dist/once.esm.js';
+   *   const elements = once('my-once-id', 'div');
    *   // Initialize elements.
-   *   elements.forEach(el => el.innerHTML = "processed");
+   *   elements.forEach(el => el.innerHTML = 'processed');
    * </script>
    *
    * @example <caption>Use as a regular script</caption>
    * <script src="https://unpkg.com/once-dom@latest/dist/once.min.js"></script>
    * <script>
-   *   const elements = once("my-id", document.querySelectorAll("div"));
+   *   const elements = once('my-once-id', 'div');
    *   // Initialize elements.
-   *   elements.forEach(el => el.innerHTML = "processed");
+   *   elements.forEach(el => el.innerHTML = 'processed');
    * </script>
+   * @example <caption>Using a single element as input</caption>
+   * // once methods always return an array, to simplify the use with a single
+   * // element use destructuring or the shift method.
+   * const [myElement] = once('my-once-id', document.body);
+   * const myElement = once('my-once-id', document.body).shift();
    */
 
   /**
@@ -43,6 +48,35 @@ var once = (function () {
   const attrName = 'data-once';
 
   /**
+   * Shortcut to access the html element.
+   *
+   * @private
+   *
+   * @type {HTMLElement}
+   */
+  const html = document.documentElement;
+
+  /**
+   * Helper to access element attributes.
+   *
+   * @private
+   *
+   * @param {Element} element
+   *   The Element to access the data-once attribute from.
+   * @param {string} op
+   *   The action to take on the element.
+   * @param {string} [value]
+   *   Optional value for setAttribute.
+   *
+   * @return {string|undefined|null|boolean}
+   *   Result of the attribute method.
+   */
+  function attr(element, op, value) {
+    const method = `${op}Attribute`;
+    return method in element && element[method](attrName, value);
+  }
+
+  /**
    * Verify the validity of the once id.
    *
    * @private
@@ -57,14 +91,27 @@ var once = (function () {
    */
   function checkId(id) {
     if (typeof id !== 'string') {
-      throw new TypeError('The once id parameter must be a string');
+      throw new TypeError('once ID must be a string');
     }
     if (id === '' || wsRE.test(id)) {
-      throw new RangeError(
-        'The once id parameter must not be empty or contain spaces',
-      );
+      throw new RangeError('once ID must not be empty or contain spaces');
     }
     return id;
+  }
+
+  /**
+   * Return the attribute selector.
+   *
+   * @private
+   *
+   * @param {string} id
+   *   The once id to select.
+   *
+   * @return {string}
+   *   The full CSS attribute selector.
+   */
+  function attrSelector(id) {
+    return checkId(id) && `[${attrName}~="${id}"]`;
   }
 
   /**
@@ -79,7 +126,7 @@ var once = (function () {
    * @param {*} itemToCheck
    *   The item to check.
    *
-   * @return {bool}
+   * @return {boolean}
    *   True if the item is an instance of Element
    *
    * @throws {TypeError}
@@ -89,6 +136,35 @@ var once = (function () {
       throw new TypeError('The element must be an instance of Element');
     }
     return true;
+  }
+
+  /**
+   * Process arguments, query the DOM if necessary.
+   *
+   * @private
+   *
+   * @param {NodeList|Array.<Element>|Element|string} selector
+   *   A NodeList or array of elements.
+   * @param {HTMLElement} [context=document.documentElement]
+   *   An element to use as context for querySelectorAll.
+   *
+   * @return {Array.<Element>}
+   *   An array with the processed Id and the list of elements to process.
+   */
+  function getElements(selector, context = html) {
+    // Assume selector is an array-like value.
+    let elements = selector;
+
+    // This is a selector, query the elements.
+    if (typeof selector === 'string' && checkElement(context)) {
+      elements = context.querySelectorAll(selector);
+    }
+    // This is a single element.
+    else if (selector instanceof Element) {
+      elements = [selector];
+    }
+
+    return elements;
   }
 
   /**
@@ -165,35 +241,51 @@ var once = (function () {
    *
    * @global
    *
-   * @example
-   * const elements = once(
-   *   'my-once-id',
-   *   document.querySelectorAll('[data-myelement]'),
-   * );
+   * @example <caption>Basic usage</caption>
+   * const elements = once('my-once-id', '[data-myelement]');
+   * @example <caption>Input parameters accepted</caption>
+   * // NodeList.
+   * once('my-once-id', document.querySelectorAll('[data-myelement]'));
+   * // Array or Array-like of Element.
+   * once('my-once-id', jQuery('[data-myelement]'));
+   * // A CSS selector without a context.
+   * once('my-once-id', '[data-myelement]');
+   * // A CSS selector with a context.
+   * once('my-once-id', '[data-myelement]', document.head);
+   * // Single Element.
+   * once('my-once-id', document.querySelector('#some-id'));
+   * @example <caption>Using a single element</caption>
+   * // Once always returns an array, event when passing a single element. Some
+   * // forms that can be used to keep code readable.
+   * // Destructuring:
+   * const [myElement] = once('my-once-id', document.body);
+   * // By changing the resulting array, es5 compatible.
+   * const myElement = once('my-once-id', document.body).shift();
    *
-   * @param  {string} id
+   * @param {string} id
    *   The id of the once call.
-   * @param  {NodeList|Array.<Element>} elements
+   * @param {NodeList|Array.<Element>|Element|string} selector
    *   A NodeList or array of elements.
+   * @param {HTMLElement} [context=document.documentElement]
+   *   An element to use as context for querySelectorAll.
    *
    * @return {Array.<Element>}
    *   An array of elements that have not yet been processed by a once call
    *   with a given id.
    */
-  function once(id, elements) {
-    const dataId = checkId(id);
+  function once(id, selector, context) {
     return filterAndModify(
-      elements,
-      `:not([${attrName}~="${dataId}"])`,
+      getElements(selector, context),
+      `:not(${attrSelector(id)})`,
       element => {
-        let value = dataId;
-        if (element.hasAttribute(attrName)) {
+        let value = id;
+        if (attr(element, 'has')) {
           value = updateAttribute({
-            value: element.getAttribute(attrName),
-            add: dataId,
+            value: attr(element, 'get'),
+            add: id,
           });
         }
-        element.setAttribute(attrName, value);
+        attr(element, 'set', value);
       },
     );
   }
@@ -207,63 +299,76 @@ var once = (function () {
    *
    * @method once.remove
    *
-   * @example
-   * const removedOnceElements = once.remove(
-   *   'my-once-id',
-   *   document.querySelectorAll('[data-myelement]'),
-   * );
+   * @example <caption>Basic usage</caption>
+   * const elements = once.remove('my-once-id', '[data-myelement]');
+   * @example <caption>Input parameters accepted</caption>
+   * // NodeList.
+   * once.remove('my-once-id', document.querySelectorAll('[data-myelement]'));
+   * // Array or Array-like of Element.
+   * once.remove('my-once-id', jQuery('[data-myelement]'));
+   * // A CSS selector without a context.
+   * once.remove('my-once-id', '[data-myelement]');
+   * // A CSS selector with a context.
+   * once.remove('my-once-id', '[data-myelement]', document.head);
+   * // Single Element.
+   * once.remove('my-once-id', document.querySelector('#some-id'));
    *
-   * @param  {string} id
+   * @param {string} id
    *   The id of a once call.
-   * @param  {NodeList|Array.<Element>} elements
+   * @param {NodeList|Array.<Element>|Element|string} selector
    *   A NodeList or array of elements to remove the once id from.
+   * @param {HTMLElement} [context=document.documentElement]
+   *   An element to use as context for querySelectorAll.
    *
    * @return {Array.<Element>}
    *   A filtered array of elements that had been processed by the provided id,
    *   and are now able to be processed again.
    */
-  once.remove = (id, elements) => {
-    const dataId = checkId(id);
-    return filterAndModify(elements, `[${attrName}~="${dataId}"]`, element => {
-      const value = updateAttribute({
-        value: element.getAttribute(attrName),
-        remove: dataId,
-      });
-      if (value === '') {
-        element.removeAttribute(attrName);
-      } else {
-        element.setAttribute(attrName, value);
-      }
-    });
+  once.remove = (id, selector, context) => {
+    return filterAndModify(
+      getElements(selector, context),
+      attrSelector(id),
+      element => {
+        const value = updateAttribute({
+          value: attr(element, 'get'),
+          remove: id,
+        });
+        if (value === '') {
+          attr(element, 'remove');
+        } else {
+          attr(element, 'set', value);
+        }
+      },
+    );
   };
 
   /**
    * Finds elements that have been processed by a given once id.
    *
    * Filters a NodeList or array, returning an array of the elements already
-   * processed by the provided once id.
+   * processed by the provided once id. If a selector is needed use the {@link
+   * once.find} method.
    *
    * @method once.filter
    *
-   * @example
-   * const filteredElements = once.filter(
-   *   'my-once-id',
-   *   document.querySelectorAll('[data-myelement]'),
-   * );
+   * @example <caption>Basic usage</caption>
+   * const filteredElements = once.filter('my-once-id', '[data-myelement]');
+   * @example <caption>Input parameters accepted</caption>
+   * // NodeList.
+   * once.filter('my-once-id', document.querySelectorAll('[data-myelement]'));
+   * // Array or Array-like of Element.
+   * once.filter('my-once-id', jQuery('[data-myelement]'));
    *
-   * @param  {string} id
+   * @param {string} id
    *   The id of the once call.
-   * @param  {NodeList|Array.<Element>} elements
+   * @param {NodeList|Array.<Element>} elements
    *   A NodeList or array of elements to be searched.
    *
    * @return {Array.<Element>}
    *   A filtered array of elements that have already been processed by the
    *   provided once id.
    */
-  once.filter = (id, elements) => {
-    const dataId = checkId(id);
-    return filterAndModify(elements, `[${attrName}~="${dataId}"]`);
-  };
+  once.filter = (id, elements) => filterAndModify(elements, attrSelector(id));
 
   /**
    * Finds elements that have been processed by a given once id.
@@ -273,28 +378,24 @@ var once = (function () {
    *
    * @method once.find
    *
-   * @example
+   * @example <caption>Basic usage</caption>
    * const oncedElements = once.find('my-once-id');
+   * @example <caption>Input parameters accepted</caption>
+   * // Call without a context.
+   * once.find('my-once-id');
+   * // Call with a context.
+   * once.find('my-once-id', document.head);
    *
-   * @param  {string} id
+   * @param {string} id
    *   The id of the once call.
-   * @param  {Element} [context=document.documentElement]
+   * @param {Element} [context=document.documentElement]
    *   Scope of the search for matching elements.
    *
    * @return {Array.<Element>}
    *   A filtered array of elements that have already been processed by the
    *   provided once id.
    */
-  once.find = (id, context = document.documentElement) => {
-    const dataId = checkId(id);
-    return (
-      checkElement(context) &&
-      // Ensure the return is an Array and not a NodeList.
-      Array.prototype.slice.call(
-        context.querySelectorAll(`[${attrName}~="${dataId}"]`),
-      )
-    );
-  };
+  once.find = (id, context = html) => getElements(attrSelector(id), context);
 
   return once;
 
