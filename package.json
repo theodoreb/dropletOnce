@@ -52,11 +52,12 @@
     "eslint": "^7.11.0",
     "eslint-config-drupal": "^5.0.2",
     "jsdoc-to-markdown": "^6.0.1",
+    "rimraf": "^3.0.2",
     "rollup": "^2.33.1",
     "rollup-plugin-terser": "^7.0.2"
   },
   "scripts": {
-    "build": "rollup -c",
+    "build": "rimraf dist/* && rollup -c",
     "test": "web-test-runner 'test/*.test.html' --node-resolve --playwright --browsers chromium firefox",
     "validate": "npm test",
     "lint": "eslint src/ test/ rollup.config.js",
