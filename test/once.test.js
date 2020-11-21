@@ -10,8 +10,8 @@ describe('once', () => {
   let span;
 
   beforeEach(() => {
-    document.body.innerHTML = '<p><span>test</span></p>';
-    span = document.querySelectorAll('span');
+    document.body.innerHTML = '<p><span>test</span></p><span></span>';
+    span = document.querySelectorAll('p span');
   });
 
   it('require ID to be a string', () => {
@@ -88,5 +88,48 @@ describe('once', () => {
     expect(once('test82', span)).to.have.lengthOf(1);
 
     expect(once.find('test81')).to.have.lengthOf(1);
+  });
+
+  it('Use a string input for once and once.remove no context', () => {
+    // Check the return of the function.
+    expect(once('test9', 'span'))
+      .to.be.a('array')
+      .with.lengthOf(2);
+
+    // Check the return of the function.
+    expect(once.remove('test9', 'span'))
+      .to.be.a('array')
+      .with.lengthOf(2);
+  });
+
+  it('Use a string input for once and once.remove with context', () => {
+    const context = document.querySelector('p');
+    // Check the return of the function.
+    expect(once('test10', 'span', context))
+      .to.be.a('array')
+      .with.lengthOf(1);
+
+    // Check the return of the function.
+    expect(once.remove('test10', 'span', context))
+      .to.be.a('array')
+      .with.lengthOf(1);
+  });
+
+  it('Use a single element input for once and once.remove', () => {
+    // Check the return of the function.
+    expect(once('test11', span[0]))
+      .to.be.a('array')
+      .with.lengthOf(1);
+
+    // Make sure the DOM has been updated properly.
+    expect(span[0]).dom.to.equal('<span data-once="test11">test</span>');
+
+    // Check the return of the function.
+    expect(once.remove('test11', span[0]))
+      .to.be.a('array')
+      .with.lengthOf(1);
+
+    // Make sure the DOM has been updated properly.
+    expect(span[0]).dom.to.equal('<span>test</span>');
   });
 });
