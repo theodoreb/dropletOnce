@@ -65,6 +65,7 @@ const html = document.documentElement;
  *   Optional value for setAttribute.
  *
  * @return {string|undefined|null|boolean}
+ *   Result of the attribute method.
  */
 function attr(element, op, value) {
   const method = `${op}Attribute`;
