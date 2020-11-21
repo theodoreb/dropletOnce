@@ -69,7 +69,7 @@ const html = document.documentElement;
  */
 function attr(element, op, value) {
   const method = `${op}Attribute`;
-  return method in element && element[method](...[attrName, value]);
+  return method in element && element[method](attrName, value);
 }
 
 /**
