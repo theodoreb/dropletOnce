@@ -22,7 +22,7 @@
     "src",
     "dist",
     "API.md",
-    "SECURITY.txt"
+    "SECURITY.md"
   ],
   "contributors": [
     "KayLeung (https://github.com/KayLeung)",
