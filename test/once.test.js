@@ -132,4 +132,16 @@ describe('once', () => {
     // Make sure the DOM has been updated properly.
     expect(span[0]).dom.to.equal('<span>test</span>');
   });
+
+  it('Use a string input for once and once.remove with document as context', () => {
+    // Check the return of the function.
+    expect(once('test12', 'span', document))
+      .to.be.a('array')
+      .with.lengthOf(2);
+
+    // Check the return of the function.
+    expect(once.remove('test12', 'span', document))
+      .to.be.a('array')
+      .with.lengthOf(2);
+  });
 });

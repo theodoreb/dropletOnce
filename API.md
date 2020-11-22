@@ -68,7 +68,7 @@ element.
 | --- | --- | --- | --- |
 | id | <code>string</code> |  | The id of the once call. |
 | selector | <code>NodeList</code> \| <code>Array.&lt;Element&gt;</code> \| <code>Element</code> \| <code>string</code> |  | A NodeList or array of elements. |
-| [context] | <code>HTMLElement</code> | <code>document.documentElement</code> | An element to use as context for querySelectorAll. |
+| [context] | <code>Document</code> \| <code>Element</code> | <code>document</code> | An element to use as context for querySelectorAll. |
 
 **Example** *(Basic usage)*  
 ```js
@@ -119,7 +119,7 @@ element again.
 | --- | --- | --- | --- |
 | id | <code>string</code> |  | The id of a once call. |
 | selector | <code>NodeList</code> \| <code>Array.&lt;Element&gt;</code> \| <code>Element</code> \| <code>string</code> |  | A NodeList or array of elements to remove the once id from. |
-| [context] | <code>HTMLElement</code> | <code>document.documentElement</code> | An element to use as context for querySelectorAll. |
+| [context] | <code>Document</code> \| <code>Element</code> | <code>document</code> | An element to use as context for querySelectorAll. |
 
 **Example** *(Basic usage)*  
 ```js
@@ -181,7 +181,7 @@ corresponding once id value.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | id | <code>string</code> |  | The id of the once call. |
-| [context] | <code>Element</code> | <code>document.documentElement</code> | Scope of the search for matching elements. |
+| [context] | <code>Document</code> \| <code>Element</code> | <code>document</code> | Scope of the search for matching elements. |
 
 **Example** *(Basic usage)*  
 ```js
