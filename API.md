@@ -99,7 +99,7 @@ const myElement = once('my-once-id', document.body).shift();
 
 * [once(id, selector, [context])](#once) ⇒ <code>Array.&lt;Element&gt;</code>
     * [.remove(id, selector, [context])](#once.remove) ⇒ <code>Array.&lt;Element&gt;</code>
-    * [.filter(id, elements)](#once.filter) ⇒ <code>Array.&lt;Element&gt;</code>
+    * [.filter(id, selector, [context])](#once.filter) ⇒ <code>Array.&lt;Element&gt;</code>
     * [.find(id, [context])](#once.find) ⇒ <code>Array.&lt;Element&gt;</code>
 
 <a name="once.remove"></a>
@@ -140,20 +140,21 @@ once.remove('my-once-id', document.querySelector('#some-id'));
 ```
 <a name="once.filter"></a>
 
-### once.filter(id, elements) ⇒ <code>Array.&lt;Element&gt;</code>
+### once.filter(id, selector, [context]) ⇒ <code>Array.&lt;Element&gt;</code>
 Finds elements that have been processed by a given once id.
 
-Filters a NodeList or array, returning an array of the elements already
-processed by the provided once id. If a selector is needed use the [find](#once.find) method.
+Behaves like [once](#once) and [remove](#once.remove) without changing the DOM.
+To select all DOM nodes processed by a given id, use [find](#once.find).
 
 **Kind**: static method of [<code>once</code>](#once)  
 **Returns**: <code>Array.&lt;Element&gt;</code> - A filtered array of elements that have already been processed by the
   provided once id.  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| id | <code>string</code> | The id of the once call. |
-| elements | <code>NodeList</code> \| <code>Array.&lt;Element&gt;</code> | A NodeList or array of elements to be searched. |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| id | <code>string</code> |  | The id of the once call. |
+| selector | <code>NodeList</code> \| <code>Array.&lt;Element&gt;</code> \| <code>Element</code> \| <code>string</code> |  | A NodeList or array of elements to remove the once id from. |
+| [context] | <code>Document</code> \| <code>Element</code> | <code>document</code> | An element to use as context for querySelectorAll. |
 
 **Example** *(Basic usage)*  
 ```js
@@ -165,6 +166,12 @@ const filteredElements = once.filter('my-once-id', '[data-myelement]');
 once.filter('my-once-id', document.querySelectorAll('[data-myelement]'));
 // Array or Array-like of Element.
 once.filter('my-once-id', jQuery('[data-myelement]'));
+// A CSS selector without a context.
+once.filter('my-once-id', '[data-myelement]');
+// A CSS selector with a context.
+once.filter('my-once-id', '[data-myelement]', document.head);
+// Single Element.
+once.filter('my-once-id', document.querySelector('#some-id'));
 ```
 <a name="once.find"></a>
 

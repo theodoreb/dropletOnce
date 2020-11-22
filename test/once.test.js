@@ -8,10 +8,12 @@ import once from '../src/once';
 
 describe('once', () => {
   let span;
+  let context;
 
   beforeEach(() => {
     document.body.innerHTML = '<p><span>test</span></p><span></span>';
     span = document.querySelectorAll('p span');
+    context = document.querySelector('p');
   });
 
   it('require ID to be a string', () => {
@@ -78,8 +80,19 @@ describe('once', () => {
     expect(once('test71', span)).to.have.lengthOf(1);
     expect(once('test72', span)).to.have.lengthOf(1);
 
+    // NodeList.
     expect(once.filter('test71', span)).to.have.lengthOf(1);
     expect(once.filter('test72', span)).to.have.lengthOf(1);
+    // Element.
+    expect(once.filter('test71', span[0])).to.have.lengthOf(1);
+    expect(once.filter('test72', span[0])).to.have.lengthOf(1);
+    // Selector no context
+    expect(once.filter('test71', 'span')).to.have.lengthOf(1);
+    expect(once.filter('test72', 'span')).to.have.lengthOf(1);
+    // Selector with context.
+    expect(once.filter('test71', 'span', context)).to.have.lengthOf(1);
+    expect(once.filter('test72', 'span', context)).to.have.lengthOf(1);
+    // no match.
     expect(once.filter('test-empty', span)).to.have.lengthOf(0);
   });
 
@@ -103,7 +116,6 @@ describe('once', () => {
   });
 
   it('Use a string input for once and once.remove with context', () => {
-    const context = document.querySelector('p');
     // Check the return of the function.
     expect(once('test10', 'span', context))
       .to.be.a('array')
