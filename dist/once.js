@@ -1,4 +1,4 @@
-/* once - v3.3.0 - 2020-11-22 */
+/* once - v3.4.0 - 2020-11-22 */
 var once = (function () {
   'use strict';
 
@@ -72,31 +72,7 @@ var once = (function () {
    *   Result of the attribute method.
    */
   function attr(element, op, value) {
-    const method = `${op}Attribute`;
-    return method in element && element[method](attrName, value);
-  }
-
-  /**
-   * Verify the validity of the once id.
-   *
-   * @private
-   *
-   * @param {string} id
-   *   The id passed by a call to a once() function.
-   *
-   * @return {string}
-   *   A valid id, used for indicating an element has been processed.
-   *
-   * @throws {TypeError|RangeError}
-   */
-  function checkId(id) {
-    if (typeof id !== 'string') {
-      throw new TypeError('once ID must be a string');
-    }
-    if (id === '' || wsRE.test(id)) {
-      throw new RangeError('once ID must not be empty or contain spaces');
-    }
-    return id;
+    return element[`${op}Attribute`](attrName, value);
   }
 
   /**
@@ -105,13 +81,23 @@ var once = (function () {
    * @private
    *
    * @param {string} id
-   *   The once id to select.
+   *   The id passed by a call to a once() function.
    *
    * @return {string}
    *   The full CSS attribute selector.
+   *
+   * @throws {TypeError|RangeError}
    */
   function attrSelector(id) {
-    return checkId(id) && `[${attrName}~="${id}"]`;
+    // Verify the validity of the once id.
+    if (typeof id !== 'string') {
+      throw new TypeError('once ID must be a string');
+    }
+    if (id === '' || wsRE.test(id)) {
+      throw new RangeError('once ID must not be empty or contain spaces');
+    }
+    // The id is valid, return the full CSS selector.
+    return `[${attrName}~="${id}"]`;
   }
 
   /**
@@ -206,31 +192,33 @@ var once = (function () {
    *
    * @private
    *
-   * @param {string} value
+   * @param {Element} element
    *   A space separated string of once ids from a data-drupal-once attribute.
-   * @param {string} add
+   * @param {string} [add]
    *   The once id to add to the list of values.
-   * @param {string} remove
+   * @param {string} [remove]
    *   The once id to remove from the list of values.
    *
-   * @return {string}
-   *   A space separated string of once ids, to be assigned to a
-   *   data-drupal-once attribute value.
+   * @return {undefined}
+   *   Nothing to return this is a callback in a foreach.
    */
-  function updateAttribute({ value, add, remove }) {
+  function updateAttribute(element, { add, remove }) {
     const result = [];
-    value
-      .trim()
-      .split(wsRE)
-      .forEach(item => {
-        if (result.indexOf(item) < 0 && item !== remove) {
-          result.push(item);
-        }
-      });
+    if (attr(element, 'has')) {
+      attr(element, 'get')
+        .trim()
+        .split(wsRE)
+        .forEach(item => {
+          if (result.indexOf(item) < 0 && item !== remove) {
+            result.push(item);
+          }
+        });
+    }
     if (add) {
       result.push(add);
     }
-    return result.join(' ');
+    const attribute = result.join(' ');
+    attr(element, attribute === '' ? 'remove' : 'set', attribute);
   }
 
   /**
@@ -280,16 +268,7 @@ var once = (function () {
     return filterAndModify(
       getElements(selector, context),
       `:not(${attrSelector(id)})`,
-      element => {
-        let value = id;
-        if (attr(element, 'has')) {
-          value = updateAttribute({
-            value: attr(element, 'get'),
-            add: id,
-          });
-        }
-        attr(element, 'set', value);
-      },
+      element => updateAttribute(element, { add: id }),
     );
   }
 
@@ -331,26 +310,15 @@ var once = (function () {
     return filterAndModify(
       getElements(selector, context),
       attrSelector(id),
-      element => {
-        const value = updateAttribute({
-          value: attr(element, 'get'),
-          remove: id,
-        });
-        if (value === '') {
-          attr(element, 'remove');
-        } else {
-          attr(element, 'set', value);
-        }
-      },
+      element => updateAttribute(element, { remove: id }),
     );
   };
 
   /**
    * Finds elements that have been processed by a given once id.
    *
-   * Filters a NodeList or array, returning an array of the elements already
-   * processed by the provided once id. If a selector is needed use the {@link
-   * once.find} method.
+   * Behaves like {@link once} and {@link once.remove} without changing the DOM.
+   * To select all DOM nodes processed by a given id, use {@link once.find}.
    *
    * @method once.filter
    *
@@ -361,17 +329,26 @@ var once = (function () {
    * once.filter('my-once-id', document.querySelectorAll('[data-myelement]'));
    * // Array or Array-like of Element.
    * once.filter('my-once-id', jQuery('[data-myelement]'));
+   * // A CSS selector without a context.
+   * once.filter('my-once-id', '[data-myelement]');
+   * // A CSS selector with a context.
+   * once.filter('my-once-id', '[data-myelement]', document.head);
+   * // Single Element.
+   * once.filter('my-once-id', document.querySelector('#some-id'));
    *
    * @param {string} id
    *   The id of the once call.
-   * @param {NodeList|Array.<Element>} elements
-   *   A NodeList or array of elements to be searched.
+   * @param {NodeList|Array.<Element>|Element|string} selector
+   *   A NodeList or array of elements to remove the once id from.
+   * @param {Document|Element} [context=document]
+   *   An element to use as context for querySelectorAll.
    *
    * @return {Array.<Element>}
    *   A filtered array of elements that have already been processed by the
    *   provided once id.
    */
-  once.filter = (id, elements) => filterAndModify(elements, attrSelector(id));
+  once.filter = (id, selector, context) =>
+    filterAndModify(getElements(selector, context), attrSelector(id));
 
   /**
    * Finds elements that have been processed by a given once id.
