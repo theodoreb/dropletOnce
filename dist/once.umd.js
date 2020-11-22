@@ -1,4 +1,4 @@
-/* once - v3.2.0 - 2020-11-21 */
+/* once - v3.3.0 - 2020-11-22 */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
@@ -57,7 +57,7 @@
    *
    * @type {HTMLElement}
    */
-  const html = document.documentElement;
+  const doc = document;
 
   /**
    * Helper to access element attributes.
@@ -148,18 +148,21 @@
    *
    * @param {NodeList|Array.<Element>|Element|string} selector
    *   A NodeList or array of elements.
-   * @param {HTMLElement} [context=document.documentElement]
+   * @param {Document|Element} [context=document]
    *   An element to use as context for querySelectorAll.
    *
    * @return {Array.<Element>}
    *   An array with the processed Id and the list of elements to process.
    */
-  function getElements(selector, context = html) {
+  function getElements(selector, context = doc) {
     // Assume selector is an array-like value.
     let elements = selector;
 
     // This is a selector, query the elements.
-    if (typeof selector === 'string' && checkElement(context)) {
+    if (
+      typeof selector === 'string' &&
+      (context === doc || checkElement(context))
+    ) {
       elements = context.querySelectorAll(selector);
     }
     // This is a single element.
@@ -269,7 +272,7 @@
    *   The id of the once call.
    * @param {NodeList|Array.<Element>|Element|string} selector
    *   A NodeList or array of elements.
-   * @param {HTMLElement} [context=document.documentElement]
+   * @param {Document|Element} [context=document]
    *   An element to use as context for querySelectorAll.
    *
    * @return {Array.<Element>}
@@ -320,7 +323,7 @@
    *   The id of a once call.
    * @param {NodeList|Array.<Element>|Element|string} selector
    *   A NodeList or array of elements to remove the once id from.
-   * @param {HTMLElement} [context=document.documentElement]
+   * @param {Document|Element} [context=document]
    *   An element to use as context for querySelectorAll.
    *
    * @return {Array.<Element>}
@@ -391,14 +394,14 @@
    *
    * @param {string} id
    *   The id of the once call.
-   * @param {Element} [context=document.documentElement]
+   * @param {Document|Element} [context=document]
    *   Scope of the search for matching elements.
    *
    * @return {Array.<Element>}
    *   A filtered array of elements that have already been processed by the
    *   provided once id.
    */
-  once.find = (id, context = html) => getElements(attrSelector(id), context);
+  once.find = (id, context) => getElements(attrSelector(id), context);
 
   return once;
 
