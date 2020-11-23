@@ -1,4 +1,4 @@
-/* once - v3.4.0 - 2020-11-22 */
+/* once - v3.4.1 - 2020-11-23 */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
@@ -156,7 +156,8 @@
       elements = [selector];
     }
 
-    return elements;
+    // Make sure an array is returned and not a NodeList or an Array-like object.
+    return Array.prototype.slice.call(elements);
   }
 
   /**
@@ -167,7 +168,7 @@
    *
    * @private
    *
-   * @param {NodeList|Array.<Element>} elements
+   * @param {Array.<Element>} elements
    *   A NodeList or array of elements passed by a call to a once() function.
    * @param {string} selector
    *   A CSS selector to check against to each element in the array.
@@ -178,7 +179,7 @@
    *   The array of elements that match the CSS selector.
    */
   function filterAndModify(elements, selector, apply) {
-    return Array.prototype.filter.call(elements, element => {
+    return elements.filter(element => {
       const selected = checkElement(element) && element.matches(selector);
       if (selected && apply) {
         apply(element);
