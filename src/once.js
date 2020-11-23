@@ -149,7 +149,8 @@ function getElements(selector, context = doc) {
     elements = [selector];
   }
 
-  return elements;
+  // Make sure an array is returned and not a NodeList or an Array-like object.
+  return Array.prototype.slice.call(elements);
 }
 
 /**
@@ -160,7 +161,7 @@ function getElements(selector, context = doc) {
  *
  * @private
  *
- * @param {NodeList|Array.<Element>} elements
+ * @param {Array.<Element>} elements
  *   A NodeList or array of elements passed by a call to a once() function.
  * @param {string} selector
  *   A CSS selector to check against to each element in the array.
@@ -171,7 +172,7 @@ function getElements(selector, context = doc) {
  *   The array of elements that match the CSS selector.
  */
 function filterAndModify(elements, selector, apply) {
-  return Array.prototype.filter.call(elements, element => {
+  return elements.filter(element => {
     const selected = checkElement(element) && element.matches(selector);
     if (selected && apply) {
       apply(element);
