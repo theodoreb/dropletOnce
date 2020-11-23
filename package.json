@@ -57,13 +57,13 @@
     "rollup-plugin-terser": "^7.0.2"
   },
   "scripts": {
+    "prebuild": "npm run lint && npm run docs",
     "build": "rimraf dist/* && rollup -c",
+    "pretest": "npm run lint",
     "test": "web-test-runner 'test/*.test.html' --node-resolve --playwright --browsers chromium firefox",
     "validate": "npm test",
     "lint": "eslint src/ test/ rollup.config.js",
     "docs": "jsdoc2md src/once.js > API.md",
-    "pretest": "npm run lint",
-    "prebuild": "npm run docs",
     "preversion": "npm test",
     "version": "npm run build && git add -A dist -f",
     "postversion": "git push && git push --tags",
