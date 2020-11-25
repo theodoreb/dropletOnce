@@ -100,7 +100,7 @@ const myElement = once('my-once-id', document.body).shift();
 * [once(id, selector, [context])](#once) ⇒ <code>Array.&lt;Element&gt;</code>
     * [.remove(id, selector, [context])](#once.remove) ⇒ <code>Array.&lt;Element&gt;</code>
     * [.filter(id, selector, [context])](#once.filter) ⇒ <code>Array.&lt;Element&gt;</code>
-    * [.find(id, [context])](#once.find) ⇒ <code>Array.&lt;Element&gt;</code>
+    * [.find([id], [context])](#once.find) ⇒ <code>Array.&lt;Element&gt;</code>
 
 <a name="once.remove"></a>
 
@@ -175,7 +175,7 @@ once.filter('my-once-id', document.querySelector('#some-id'));
 ```
 <a name="once.find"></a>
 
-### once.find(id, [context]) ⇒ <code>Array.&lt;Element&gt;</code>
+### once.find([id], [context]) ⇒ <code>Array.&lt;Element&gt;</code>
 Finds elements that have been processed by a given once id.
 
 Query the 'context' element for elements that already have the
@@ -187,7 +187,7 @@ corresponding once id value.
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| id | <code>string</code> |  | The id of the once call. |
+| [id] | <code>string</code> |  | The id of the once call. |
 | [context] | <code>Document</code> \| <code>Element</code> | <code>document</code> | Scope of the search for matching elements. |
 
 **Example** *(Basic usage)*  
@@ -196,6 +196,8 @@ const oncedElements = once.find('my-once-id');
 ```
 **Example** *(Input parameters accepted)*  
 ```js
+// Call without parameters, return all elements with a `data-once` attribute.
+once.find();
 // Call without a context.
 once.find('my-once-id');
 // Call with a context.

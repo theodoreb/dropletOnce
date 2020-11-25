@@ -23,17 +23,26 @@ describe('once', () => {
   });
 
   it('require ID to be a string', () => {
-    assert.throws(() => once(123, [document.body]), TypeError);
+    assert.throws(
+      () => once(123, pSpan),
+      TypeError,
+      'once ID must be a string',
+    );
   });
 
   it('require ID to not have spaces', () => {
-    assert.throws(() => once('BAD ID', [document.body]), RangeError);
+    assert.throws(
+      () => once('BAD ID', pSpan),
+      RangeError,
+      'once ID must not be empty or contain spaces',
+    );
   });
 
   it("only process 'Element' objects", () => {
     assert.throws(
-      () => once('test3', [document.body, 'wrong element']),
+      () => once('test3', [pSpan, 'wrong element']),
       TypeError,
+      'The element must be an instance of Element',
     );
   });
 
@@ -102,9 +111,10 @@ describe('once', () => {
 
   it('execute once.find', () => {
     expectArrayOfLength(once('test81', pSpan), 1);
-    expectArrayOfLength(once('test82', pSpan), 1);
-
     expectArrayOfLength(once.find('test81'), 1);
+
+    expectArrayOfLength(once('test82', 'span'), 2);
+    expectArrayOfLength(once.find(), 2);
   });
 
   it('Use a string input for once and once.remove no context', () => {
@@ -128,5 +138,25 @@ describe('once', () => {
   it('Use a string input for once and once.remove with document as context', () => {
     expectArrayOfLength(once('test12', 'span', document), 2);
     expectArrayOfLength(once.remove('test12', 'span', document), 2);
+  });
+
+  it('Calling once without parameters should fail', () => {
+    assert.throws(() => once(), TypeError, 'once ID must be a string');
+  });
+
+  it('Calling once with an element as first parameter should fail with ID validation error', () => {
+    assert.throws(
+      () => once(document.body),
+      TypeError,
+      'once ID must be a string',
+    );
+  });
+
+  it('Calling once without selector should fail', () => {
+    assert.throws(
+      () => once('test14'),
+      TypeError,
+      'Selector must not be empty',
+    );
   });
 });
