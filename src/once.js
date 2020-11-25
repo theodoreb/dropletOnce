@@ -358,12 +358,14 @@ once.filter = (id, selector, context) =>
  * @example <caption>Basic usage</caption>
  * const oncedElements = once.find('my-once-id');
  * @example <caption>Input parameters accepted</caption>
+ * // Call without parameters, return all elements with a `data-once` attribute.
+ * once.find();
  * // Call without a context.
  * once.find('my-once-id');
  * // Call with a context.
  * once.find('my-once-id', document.head);
  *
- * @param {string} id
+ * @param {string} [id]
  *   The id of the once call.
  * @param {Document|Element} [context=document]
  *   Scope of the search for matching elements.
@@ -372,6 +374,7 @@ once.filter = (id, selector, context) =>
  *   A filtered array of elements that have already been processed by the
  *   provided once id.
  */
-once.find = (id, context) => getElements(attrSelector(id), context);
+once.find = (id, context) =>
+  getElements(!id ? `[${attrName}]` : attrSelector(id), context);
 
 export default once;
