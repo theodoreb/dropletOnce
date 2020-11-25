@@ -1,4 +1,4 @@
-/* once - v3.4.1 - 2020-11-23 */
+/* once - v3.5.0 - 2020-11-25 */
 /**
  * Mark DOM elements as processed to prevent multiple initializations.
  *
@@ -135,6 +135,9 @@ function checkElement(itemToCheck) {
  *   An array with the processed Id and the list of elements to process.
  */
 function getElements(selector, context = doc) {
+  if (!selector) {
+    throw new TypeError('Selector must not be empty');
+  }
   // Assume selector is an array-like value.
   let elements = selector;
 
@@ -162,17 +165,17 @@ function getElements(selector, context = doc) {
  *
  * @private
  *
- * @param {Array.<Element>} elements
- *   A NodeList or array of elements passed by a call to a once() function.
  * @param {string} selector
  *   A CSS selector to check against to each element in the array.
+ * @param {Array.<Element>} elements
+ *   A NodeList or array of elements passed by a call to a once() function.
  * @param {function} [apply]
  *   An optional function to apply on all matched elements.
  *
  * @return {Array.<Element>}
  *   The array of elements that match the CSS selector.
  */
-function filterAndModify(elements, selector, apply) {
+function filterAndModify(selector, elements, apply) {
   return elements.filter(element => {
     const selected = checkElement(element) && element.matches(selector);
     if (selected && apply) {
@@ -264,8 +267,8 @@ function updateAttribute(element, { add, remove }) {
  */
 function once(id, selector, context) {
   return filterAndModify(
-    getElements(selector, context),
     `:not(${attrSelector(id)})`,
+    getElements(selector, context),
     element => updateAttribute(element, { add: id }),
   );
 }
@@ -306,8 +309,8 @@ function once(id, selector, context) {
  */
 once.remove = (id, selector, context) => {
   return filterAndModify(
-    getElements(selector, context),
     attrSelector(id),
+    getElements(selector, context),
     element => updateAttribute(element, { remove: id }),
   );
 };
@@ -346,7 +349,7 @@ once.remove = (id, selector, context) => {
  *   provided once id.
  */
 once.filter = (id, selector, context) =>
-  filterAndModify(getElements(selector, context), attrSelector(id));
+  filterAndModify(attrSelector(id), getElements(selector, context));
 
 /**
  * Finds elements that have been processed by a given once id.
@@ -359,12 +362,14 @@ once.filter = (id, selector, context) =>
  * @example <caption>Basic usage</caption>
  * const oncedElements = once.find('my-once-id');
  * @example <caption>Input parameters accepted</caption>
+ * // Call without parameters, return all elements with a `data-once` attribute.
+ * once.find();
  * // Call without a context.
  * once.find('my-once-id');
  * // Call with a context.
  * once.find('my-once-id', document.head);
  *
- * @param {string} id
+ * @param {string} [id]
  *   The id of the once call.
  * @param {Document|Element} [context=document]
  *   Scope of the search for matching elements.
@@ -373,6 +378,7 @@ once.filter = (id, selector, context) =>
  *   A filtered array of elements that have already been processed by the
  *   provided once id.
  */
-once.find = (id, context) => getElements(attrSelector(id), context);
+once.find = (id, context) =>
+  getElements(!id ? `[${attrName}]` : attrSelector(id), context);
 
 export default once;
