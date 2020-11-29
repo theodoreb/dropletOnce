@@ -14,14 +14,14 @@
     "Kay Leung (https://github.com/KayLeung)"
   ],
   "type": "module",
-  "main": "dist/once.esm.min.js",
-  "module": "dist/once.esm.min.js",
+  "main": "src/once.js",
+  "module": "dist/once.esm.js",
+  "umd": "dist/once.umd.js",
   "browser": "dist/once.min.js",
-  "umd": "dist/once.umd.min.js",
   "files": [
     "src",
     "dist",
-    "API.md",
+    "docs",
     "SECURITY.md"
   ],
   "contributors": [
@@ -63,7 +63,7 @@
     "test": "web-test-runner 'test/*.test.html' --node-resolve --playwright --browsers chromium firefox",
     "validate": "npm test",
     "lint": "eslint src/ test/ rollup.config.js",
-    "docs": "jsdoc2md src/once.js > API.md",
+    "docs": "jsdoc2md src/once.js > docs/API.md",
     "preversion": "npm test",
     "version": "npm run build && git add -A dist -f",
     "postversion": "git push && git push --tags",

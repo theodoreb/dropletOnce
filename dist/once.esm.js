@@ -1,4 +1,4 @@
-/* once - v3.5.0 - 2020-11-25 */
+/*! once - v3.5.0 - 2020-11-29 */
 /**
  * Mark DOM elements as processed to prevent multiple initializations.
  *

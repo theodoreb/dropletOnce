@@ -1,4 +1,4 @@
-/* once - v3.5.0 - 2020-11-25 */
+/*! once - v3.5.0 - 2020-11-29 */
 var once = (function () {
   'use strict';
 

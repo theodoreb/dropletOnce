@@ -23,7 +23,7 @@ Select and filter DOM elements to process them only once.
 </script>
 ```
 
-Full API documentation and examples in the [API docs](API.md).
+Full API documentation and examples in the [API docs](docs/API.md).
 
 ## Contributors
 

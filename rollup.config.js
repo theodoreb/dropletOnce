@@ -10,7 +10,7 @@ const step1 = {
   out: {
     name: 'once',
     // Add version and date to generated files.
-    banner: `/* once - v${pkg.version} - ${
+    banner: `/*! once - v${pkg.version} - ${
       new Date().toJSON().split('T')[0]
     } */`,
   },
@@ -32,7 +32,7 @@ const step2 = {
     buble({ transforms: { modules: false } }),
     // Minify resulting ES5 code, keep banner comment.
     terser({
-      format: { comments: /^ once/ },
+      format: { comments: 'some' },
     }),
   ],
 };
@@ -41,18 +41,22 @@ export default [
   {
     input: 'src/once.js',
     output: [
-      { ...step1.out, file: pkg.browser.replace('.min', ''), format: 'iife' },
-      { ...step1.out, file: pkg.main.replace('.min', ''), format: 'esm' },
-      { ...step1.out, file: pkg.umd.replace('.min', ''), format: 'umd' },
+      { ...step1.out, file: pkg.browser, format: 'iife' },
+      { ...step1.out, file: pkg.main, format: 'esm' },
+      { ...step1.out, file: pkg.umd, format: 'umd' },
     ],
     plugins: step1.plugins,
   },
   {
     input: 'src/once.js',
     output: [
-      { ...step2.out, file: pkg.browser, format: 'iife' },
-      { ...step2.out, file: pkg.main, format: 'esm' },
-      { ...step2.out, file: pkg.umd, format: 'umd' },
+      {
+        ...step2.out,
+        file: pkg.browser.replace('.js', '.min.js'),
+        format: 'iife',
+      },
+      { ...step2.out, file: pkg.main.replace('.js', '.min.js'), format: 'esm' },
+      { ...step2.out, file: pkg.umd.replace('.js', '.min.js'), format: 'umd' },
     ],
     plugins: step2.plugins,
   },
