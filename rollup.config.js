@@ -42,7 +42,7 @@ export default [
     input: 'src/once.js',
     output: [
       { ...step1.out, file: pkg.browser, format: 'iife' },
-      { ...step1.out, file: pkg.main, format: 'esm' },
+      { ...step1.out, file: pkg.module, format: 'esm' },
       { ...step1.out, file: pkg.umd, format: 'umd' },
     ],
     plugins: step1.plugins,
@@ -55,7 +55,11 @@ export default [
         file: pkg.browser.replace('.js', '.min.js'),
         format: 'iife',
       },
-      { ...step2.out, file: pkg.main.replace('.js', '.min.js'), format: 'esm' },
+      {
+        ...step2.out,
+        file: pkg.module.replace('.js', '.min.js'),
+        format: 'esm',
+      },
       { ...step2.out, file: pkg.umd.replace('.js', '.min.js'), format: 'umd' },
     ],
     plugins: step2.plugins,
