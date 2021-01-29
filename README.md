@@ -1,3 +1,7 @@
+# DEPRECATED
+
+Developement moved back to Drupal.org, please see https://www.drupal.org/project/once.
+
 # once-dom
 
 Select and filter DOM elements to process them only once.
